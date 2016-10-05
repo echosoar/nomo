@@ -1,0 +1,22 @@
+{
+  "name": "nomo",
+  "version": "1.0.0",
+  "description": "data mock tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/echosoar/nomo.git"
+  },
+  "keywords": [
+    "mock"
+  ],
+  "author": "echosoar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/echosoar/nomo/issues"
+  },
+  "homepage": "https://github.com/echosoar/nomo#readme"
+}
