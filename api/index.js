@@ -1,6 +1,7 @@
 "use strict";
 
 const hostList = require("./hostList.js");
+const addNewHost = require("./addNewHost.js");
 
 let index = function * (next){
 	
@@ -11,6 +12,9 @@ let index = function * (next){
 	switch(url[0]){
 		case "hostList":
 			hostList(that);
+			break;
+		case "addNewHost":
+			addNewHost(that);
 			break;
 	}
 	yield next;

@@ -76,7 +76,7 @@
 	}
 	#add-new-form {
 		display:none;
-		background:#9c9;
+		background:#709;
 		height:60px;
 		line-height:60px;
 		color:#fff;
@@ -123,17 +123,22 @@
 	.btn-circle:hover{
 		background:#363;
 	}
-	#add-new-ok {
+	#add-new-ok,#add-new-cancel{
 		position:absolute;
 		top:10px;
+		background:#99f;
+		transition:background .5s ease;
+	}
+	#add-new-ok {
 		right:60px;
 	}
 	#add-new-cancel {
-		position:absolute;
-		top:10px;
 		right:10px;
-		
 	}
+	#add-new-ok:hover,#add-new-cancel:hover{
+		background:#cc0;
+	}
+	
 	
 	#loading {
 		height:60px;
@@ -257,9 +262,26 @@
 		}
 		document.getElementById("add-new-ok").onclick = function(){
 			var address = nodeStyle("add-new-address").value.replace(/\s/g,"");
-			if(!!address)return;
+			console.log(!!address);
+			if(!address)return;
 			nodeStyle("add-new-form",{display:"none"});
 			nodeStyle("loading",{display:"block"});
+			
+			var xhr = getXhr();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						nodeStyle("loading",{display:"none"});
+						var data = JSON.parse(xhr.responseText);
+						console.log(data);
+						if(data.res>0){
+							getHostList();
+						}
+					}
+				}
+			}
+			xhr.open("GET","/api/addNewHost/?host="+address);
+			xhr.send(null);
 		}
 		
 		
