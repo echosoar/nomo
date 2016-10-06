@@ -21,6 +21,7 @@
 	#welcome {
 		position:fixed;
 		width:100%;
+		min-width:960px;
 		height:100%;
 		z-index:20;
 		background:#e5e5e5;
@@ -39,6 +40,7 @@
 		font-weight:bold;
 		text-align:center;
 		color:#fff;
+		
 		text-shadow:0 0 2px #666;
 		
 	}
@@ -84,6 +86,7 @@
 		padding-right:140px;
 		border-radius:5px;
 		padding-left:200px;
+		margin-bottom:10px;
 	}
 	#add-new-form:before{
 		content: "Address( No Http/Https ):";
@@ -148,6 +151,30 @@
 		border-right:3px solid transparent;
 		animation:loading .5s linear infinite;
 	}
+	.host-list-item{
+		background:#9c9;
+		height:60px;
+		line-height:60px;
+		color:#fff;
+		text-shadow:0 0 2px #000;
+		font-size:24px;
+		font-weight:bold;
+		position:relative;
+		padding-right:200px;
+		border-radius:5px;
+		padding-left:30px;
+		margin-bottom:10px;
+	}
+	.host-list-api {
+		position:absolute;
+		top:10px;
+		right:60px;
+	}
+	.host-list-del {
+		position:absolute;
+		top:10px;
+		right:10px;
+	}
 	</style>
 	<body>
 		<div id="welcome"><i>Nomo Data Mock Tools</i><br /></div>
@@ -162,6 +189,49 @@
 		</div>
 	</body>
 	<script>
+		var getXhr = function(){
+			if(window.XMLHttpRequest){
+				var xhr=new XMLHttpRequest();
+			}else{
+				try{
+					var xhr=new ActiveXObject("Msxml2.XMLHTTP");
+				}catch(e){
+					try{
+						var xhr=new ActiveXObject("Microsoft.XMLHTTP");
+					}catch(e){
+						throw new TypeError('Unsupport XMLHttpRequest');
+					}
+				}
+			}
+			return xhr;
+		}
+		
+		function getHostList(){
+			var xhr = getXhr();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						nodeStyle("loading",{display:"none"});
+						var data = JSON.parse(xhr.responseText);
+						if(data.num>0){
+							var fragment = document.createDocumentFragment("div");
+							data.data.forEach(function(v,index){
+								var temElement = document.createElement("div");
+								temElement.setAttribute("id","host-list-item-"+index);
+								temElement.setAttribute("class","host-list-item");
+								temElement.innerHTML = v + '<i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
+								fragment.appendChild(temElement);
+							});
+							nodeStyle("host-list").innerHTML = "";
+							nodeStyle("host-list").appendChild(fragment);
+						}
+					}
+				}
+			}
+			xhr.open("GET","/api/hostList");
+			xhr.send(null);
+		}
+		
 		function nodeStyle(element,style){
 			element = document.getElementById(element);
 			if(style){
@@ -173,7 +243,8 @@
 		}
 	
 		setTimeout(function(){
-			nodeStyle("welcome",{"height":"60px","fontSize":"20px","backgroundColor":"#9c9"})
+			nodeStyle("welcome",{"height":"60px","fontSize":"20px","backgroundColor":"#9c9"});
+			getHostList();
 		},0);
 		
 		document.getElementById("add-new-host").onclick = function(){
