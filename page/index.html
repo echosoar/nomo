@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Nomo | node data mock tool</title>
+		<title>Nomo Data Mock Tool</title>
 		<meta charset="utf-8"/>
 	</head>
 	<style>
@@ -49,6 +49,21 @@
 		top: 60px;
 		width:960px;
 		margin:0 auto;
+	}
+	#copyright {
+		position:relative;
+		top: 80px;
+		width:960px;
+		margin:0 auto;
+		height:40px;
+		line-height:40px;
+		font-size:12px;
+		color:#999;
+		text-align:center;
+	}
+	#copyright a{
+		color:#666;
+		text-decoration:none;
 	}
 	#title-host {
 		height:60px;
@@ -156,6 +171,19 @@
 		border-right:3px solid transparent;
 		animation:loading .5s linear infinite;
 	}
+	.host-list-noitem {
+		background:#efefef;
+		height:60px;
+		line-height:60px;
+		color:#fff;
+		text-shadow:0 0 2px #000;
+		font-size:24px;
+		font-weight:bold;
+		position:relative;
+		text-align:center;
+		border-radius:5px;
+
+	}
 	.host-list-item{
 		background:#9c9;
 		height:60px;
@@ -182,16 +210,15 @@
 	}
 	</style>
 	<body>
-		<div id="welcome"><i>Nomo Data Mock Tools</i><br /></div>
+		<div id="welcome"><i>Nomo Data Mock Tool</i><br /></div>
 		<div id="main">
 			<div id="title-host">Host List</div>
 			<div id="add-new-host">Add New Host Bind</div>
 			<div id="loading"><i></i></div>
 			<div id="add-new-form"><input type="text" id="add-new-address" placeholder="www.example.com"/><i id="add-new-ok" class="btn-circle">OK</i><i id="add-new-cancel" class="btn-circle">Close</i></div>
-			<div id="host-list">
-				
-			</div>
+			<div id="host-list"></div>
 		</div>
+		<div id="copyright">© 2016 <a href='http://iwenku.net' target="_blank">IWenKu.net</a> Copyright All Reversed.</div>
 	</body>
 	<script>
 		var getXhr = function(){
@@ -216,6 +243,7 @@
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==4){
 					if(xhr.status == 200){
+						nodeStyle("host-list").innerHTML = "";
 						nodeStyle("loading",{display:"none"});
 						var data = JSON.parse(xhr.responseText);
 						if(data.num>0){
@@ -227,8 +255,13 @@
 								temElement.innerHTML = v + '<i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
 								fragment.appendChild(temElement);
 							});
-							nodeStyle("host-list").innerHTML = "";
+							
 							nodeStyle("host-list").appendChild(fragment);
+						}else{
+							var temElement = document.createElement("div");
+							temElement.setAttribute("class","host-list-noitem");
+							temElement.innerHTML = "No Host Bind Now!";
+							nodeStyle("host-list").appendChild(temElement);
 						}
 					}
 				}
@@ -284,6 +317,27 @@
 			xhr.send(null);
 		}
 		
-		
+		document.body.onclick = function(e){
+			e = e || window.e;
+			var target = e.target || e.srcElement;
+			
+			if(target.innerHTML == "Del" && confirm("Do you really want to delete this one?")){
+				var id = target.getAttribute("id").split("-").pop();
+				var preHTML = target.parentNode.innerHTML;
+				var host = preHTML.split("<")[0];
+				target.parentNode.innerHTML = "Deleting...";
+				
+				var xhr = getXhr();
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState==4){
+						if(xhr.status == 200){
+							getHostList();
+						}
+					}
+				}
+				xhr.open("GET","/api/deleteHost/?host="+host);
+				xhr.send(null);
+			}
+		}
 	</script>
 </html>
