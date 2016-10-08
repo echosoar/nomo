@@ -28,7 +28,12 @@ let main = function(obj){
 				nomoAdded = true;
 			}else if(lineArr[i] == "# NOMO HOST END"){
 				nomoHostBool = false;
-				if(!isHostExist)resHost.push("127.0.0.1 "+newHost);
+				if(!isHostExist){
+					var dirname = __dirname+"/../data/"+(new Buffer(newHost)).toString('base64');
+					fs.mkdirSync(dirname);
+					resHost.push("127.0.0.1 "+newHost);
+				}
+				
 			}else if(nomoHostBool){
 				let temHost = lineArr[i].split(/\s/);
 				if(temHost[1]==newHost){
