@@ -16,7 +16,7 @@ router.get("/api/*",Api);
 app.use(router.middleware());
 
 let nomo = (port) => {
-	port = post || 1314;
+	port = port || 1314;
 	
 	var server = http.createServer().listen(80);
 
