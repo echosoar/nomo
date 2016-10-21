@@ -93,7 +93,7 @@
 		background:#9c9;
 		transition:background .5s ease;
 	}
-	#add-new-host:hover,#add-new-api:hover,#return-to-host-list:hover{
+	#add-new-host:hover,#api-info-regetip:hover,#add-new-api:hover,#return-to-host-list:hover{
 		background:#696;
 	}
 	#add-new-form {
@@ -230,6 +230,34 @@
 		cursor:pointer;
 		transition:background .5s ease;
 	}
+	#api-info {
+		background:#efefef;
+		height:60px;
+		line-height:60px;
+		color:#fff;
+		text-shadow:0 0 2px #000;
+		font-size:24px;
+		font-weight:bold;
+		position:relative;
+		text-align:center;
+		border-radius:5px;
+	}
+	#api-info-regetip{
+		position:absolute;
+		top:10px;
+		right:10px;
+		width:40px;
+		height:40px;
+		border-radius:20px;
+		line-height:40px;
+		font-size:10px;
+		font-style:normal;
+		font-weight:bold;
+		text-align:center;
+		cursor:pointer;
+		background:#9c9;
+		transition:background .5s ease;
+	}
 	</style>
 	<body>
 		<div id="welcome"><i>Nomo Data Mock Tool</i><br /></div>
@@ -243,6 +271,10 @@
 		<div id="api">
 			<div id="title-api"><span id="return-to-host-list">Return</span><span id="title-api-host"></span> Api List</div>
 			<div id="add-new-api">Add New Api</div>
+			<div id="api-info">
+				<span id="api-info-ip">Loading IP Address</span>
+				<i id="api-info-regetip">Reget</i>
+			</div>
 		</div>
 		<div id="copyright">© 2016 <a href='http://iwenku.net' target="_blank">IWenKu.net</a> Copyright All Reversed.</div>
 	</body>
@@ -321,7 +353,6 @@
 		}
 		document.getElementById("add-new-ok").onclick = function(){
 			var address = nodeStyle("add-new-address").value.replace(/\s/g,"");
-			console.log(!!address);
 			if(!address)return;
 			nodeStyle("add-new-form",{display:"none"});
 			nodeStyle("loading",{display:"block"});
@@ -368,13 +399,28 @@
 				nodeStyle("main",{display:"none"});
 				nodeStyle("api",{display:"block"});
 				nodeStyle("title-api-host").innerHTML= host;
-				
+				getIp(host);
 			}
 		}
 		
 		nodeStyle("return-to-host-list").onclick = function(){
 			nodeStyle("api",{display:"none"});
-				nodeStyle("main",{display:"block"});
+			nodeStyle("main",{display:"block"});
+		}
+		
+		function getIp(host){
+			var xhr = getXhr();
+			xhr.open("GET","/api/getIpByHost/?host="+host);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var data = JSON.parse(xhr.responseText);
+						console.log(data);
+						
+					}
+				}
+			}
+			xhr.send(null);
 		}
 	</script>
 </html>

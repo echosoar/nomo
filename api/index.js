@@ -3,6 +3,7 @@
 const hostList = require("./hostList.js");
 const addNewHost = require("./addNewHost.js");
 const deleteHost = require("./deleteHost.js");
+const getIpByHost = require("./getIpByHost.js");
 
 let index = function * (next){
 	
@@ -19,6 +20,9 @@ let index = function * (next){
 			break;
 		case "deleteHost":
 			deleteHost(that);
+			break;
+		case "getIpByHost":
+			getIpByHost(that);
 			break;
 	}
 	yield next;
