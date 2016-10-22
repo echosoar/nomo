@@ -28,6 +28,7 @@ let deleteFolderRecursive = function(path) {
 
 
 let deleteHost = host => {
+	host = host.toLowerCase();
 	let hostFileOpen = false;
 	let hostFile;
 	if(fs.existsSync(hostWINXP)){
@@ -61,6 +62,7 @@ let deleteHost = host => {
 }
 
 let addHost = host => {
+	host = host.toLowerCase();
 	let hostFileOpen = false;
 	let hostFile;
 	if(fs.existsSync(hostWINXP)){

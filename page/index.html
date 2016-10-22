@@ -258,6 +258,7 @@
 		transition:background .5s ease;
 	}
 	#api-info-setip{
+		display:none;
 		position:absolute;
 		top:10px;
 		left:10px;
@@ -426,6 +427,8 @@
 		nodeStyle("return-to-host-list").onclick = function(){
 			nodeStyle("api",{display:"none"});
 			nodeStyle("main",{display:"block"});
+			nodeStyle("api-info-regetip",{display:"none"});
+			nodeStyle("api-info-setip",{display:"none"});
 		}
 		nodeStyle("api-info-regetip").onclick = function(){
 			nodeStyle("api-info-ip").innerHTML = "Loading IP Address";
@@ -437,15 +440,50 @@
 		nodeStyle("api-info-setip").onclick = function(){
 			var host = nodeStyle("title-api-host").innerHTML;
 			var res = prompt("Please Input Ip Address","");
+			var host = nodeStyle("title-api-host").innerHTML;
 			if(/(\d{1,3}\.){3}\d{1,3}/.test(res)){
-				console.log(res);
+				
+				var xhr = getXhr();
+				xhr.open("GET","/api/setHostIp/?ip="+res+"&host="+host);
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState==4){
+						if(xhr.status == 200){
+							var data = JSON.parse(xhr.responseText);
+							if(data.res==1){
+								nodeStyle("api-info-ip").innerHTML = data.ip;
+							}else{
+								nodeStyle("api-info-ip").innerHTML = "IP Address Set Error!";
+							}
+						}
+					}
+				}
+				xhr.send(null);
+				
 			}else if(res != null){
 				alert("Ip Address Format Error!");
 			}
 		}
 		function getConfig(host){
 			nodeStyle("api-info-ip").innerHTML = "Loading IP Address";
-			nodeStyle("api-info-regetip",{display:"block"});
+			var xhr = getXhr();
+			xhr.open("GET","/api/getConfigByHost/?host="+host);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var data = JSON.parse(xhr.responseText);
+						
+						if(data.res==1 && data.config.ip!=false){
+							nodeStyle("api-info-ip").innerHTML = data.config.ip;
+						}else{
+							nodeStyle("api-info-ip").innerHTML ="Can not get ip , please manually set!";
+						}
+						
+						nodeStyle("api-info-setip",{display:"block"});
+						nodeStyle("api-info-regetip",{display:"block"});
+					}
+				}
+			}
+			xhr.send(null);
 		}
 		function getIp(host){
 			var xhr = getXhr();
@@ -466,5 +504,6 @@
 			}
 			xhr.send(null);
 		}
+		
 	</script>
 </html>

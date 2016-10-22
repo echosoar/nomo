@@ -11,8 +11,9 @@ let main = function(obj){
 	
 	var addRes = base.addHost(newHost[1]);
 	
-	var dirname = __dirname+"/../data/"+(new Buffer(newHost)).toString('base64');
+	var dirname = __dirname+"/../data/"+(new Buffer(newHost[1])).toString('base64');
 	base.mkFolder(dirname);
+	console.log(dirname);
 	
 	obj.body = JSON.stringify({res:addRes?1:0});
 }

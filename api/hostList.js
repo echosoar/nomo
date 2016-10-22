@@ -24,7 +24,7 @@ let main = function(obj){
 			}
 		}
 		
-		obj.body = JSON.stringify({num:nomoHost.length,data:nomoHost});
+		obj.body = JSON.stringify({num:nomoHost.length,data:nomoHost.reverse()});
 	}
 }
 

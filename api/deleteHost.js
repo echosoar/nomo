@@ -9,7 +9,7 @@ let main = function(obj){
 		return;
 	}
 	var deleteRes = base.deleteHost(nowHost[1]);
-	var dirname = __dirname+"/../data/"+(new Buffer(nowHost)).toString('base64');
+	var dirname = __dirname+"/../data/"+(new Buffer(nowHost[1])).toString('base64');
 	base.deleteFolder(dirname);
 	obj.body = JSON.stringify({res:deleteRes?1:0});
 }
