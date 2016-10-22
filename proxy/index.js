@@ -26,22 +26,27 @@ let Proxy = (req,res) => {
 		
 		
 		var callback = (error, response, body) => { 
-
-			if(isBinary(response.headers["content-type"])){
-				var options = {
-					url: response.request.href,
-					headers: response.request.headers,
-					encoding: 'binary'
-				};
-				request(options,(error,responseBinary)=>{
-					res.writeHead(responseBinary.statusCode, responseBinary.headers);
-					res.write(responseBinary.body, "binary");
-					res.end();
-				});
-			}else{
-				res.writeHead(response.statusCode,response.headers);
-				res.write(response.body);
+			if(error!=null){
+				res.writeHead("200",{"Content-Type":"text/html"});
+				res.write("Nomo Error!<br />May be host not bind ip address.");
 				res.end();
+			}else{
+				if(isBinary(response.headers["content-type"])){
+					var options = {
+						url: response.request.href,
+						headers: response.request.headers,
+						encoding: 'binary'
+					};
+					request(options,(error,responseBinary)=>{
+						res.writeHead(responseBinary.statusCode, responseBinary.headers);
+						res.write(responseBinary.body, "binary");
+						res.end();
+					});
+				}else{
+					res.writeHead(response.statusCode,response.headers);
+					res.write(response.body);
+					res.end();
+				}
 			}
 		}
 		

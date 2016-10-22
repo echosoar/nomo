@@ -1,5 +1,7 @@
 "use strict";
 
+const fs = require("fs");
+const getIp = require("./hostToIp.js").hti;
 const base = require("./base.js");
 
 let main = function(obj){
@@ -9,12 +11,20 @@ let main = function(obj){
 		return;
 	}
 	
-	var addRes = base.addHost(newHost[1]);
+	newHost = newHost[1];
 	
-	var dirname = __dirname+"/../data/"+(new Buffer(newHost[1])).toString('base64');
+	var dirname = __dirname+"/../data/"+(new Buffer(newHost)).toString('base64');
 	base.mkFolder(dirname);
-	console.log(dirname);
 	
+	var configFile = dirname+"/config.json";
+	if(!fs.existsSync(configFile)){
+		var config = {};
+		config.host = newHost;
+		config.ip = getIp(newHost);
+		config.api = [];
+		fs.writeFileSync(configFile,JSON.stringify(config));
+	}
+	var addRes = base.addHost(newHost);
 	obj.body = JSON.stringify({res:addRes?1:0});
 }
 
