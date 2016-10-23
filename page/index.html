@@ -94,8 +94,8 @@
 		transition:background .5s ease;
 	}
 	
-	#add-new-form {
-		display:none;
+	#add-new-form,#add-new-api-form {
+		//display:none;
 		background:#709;
 		height:60px;
 		line-height:60px;
@@ -116,7 +116,15 @@
 		width:200px;
 		text-align:center;
 	}
-	#add-new-address{
+	#add-new-api-form:before{
+		content: "Api Name:";
+		position:absolute;
+		top:0;
+		left:0;
+		width:200px;
+		text-align:center;
+	}
+	#add-new-address,#add-new-apiaddress{
 		width:100%;
 		padding:0;
 		height:60px;
@@ -156,6 +164,22 @@
 		right:10px;
 	}
 	#add-new-ok:hover,#add-new-cancel:hover{
+		background:#cc0;
+	}
+	
+	#add-new-api-ok,#add-new-api-cancel{
+		position:absolute;
+		top:10px;
+		background:#99f;
+		transition:background .5s ease;
+	}
+	#add-new-api-ok {
+		right:60px;
+	}
+	#add-new-api-cancel {
+		right:10px;
+	}
+	#add-new-api-ok:hover,#add-new-api-cancel:hover{
 		background:#cc0;
 	}
 	
@@ -295,6 +319,9 @@
 				<span id="api-info-ip">Loading IP Address</span>
 				<i id="api-info-setip">Set</i>
 				<i id="api-info-regetip">Reget</i>
+			</div>
+			<div id="add-new-api-form">
+				<input type="text" id="add-new-apiaddress" placeholder="/example.do"/><i id="add-new-api-ok" class="btn-circle">OK</i><i id="add-new-api-cancel" class="btn-circle">Close</i>
 			</div>
 		</div>
 		<div id="copyright">© 2016 <a href='http://iwenku.net' target="_blank">IWenKu.net</a> Copyright All Reversed.</div>
