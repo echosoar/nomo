@@ -11,7 +11,7 @@ let isBinary = contentType => {
 
 
 let Proxy = (req,res) => {
-		
+
 		let host = req.headers.host.toLowerCase();
 		
 		let hostReg = new RegExp("^http://"+host);
