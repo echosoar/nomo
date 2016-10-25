@@ -1,3 +1,2 @@
 ### Nomo
-
-Data Mock Tool
+Nomo Data Mock Tool
