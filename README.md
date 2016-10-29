@@ -2,8 +2,9 @@
 
 How to use?
 
-  let nomo = require("nomo");
-  nomo.start();
+    let nomo = require("nomo");
+  
+    nomo.start();
   
 
 Data Mock Tool.
