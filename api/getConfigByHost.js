@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 const getIp = require("./hostToIp.js").hti;
 const base = require("./base.js");
 
@@ -12,7 +13,7 @@ let main = obj => {
 	}
 	nowHost = nowHost[1];
 	nowHost = nowHost.toLowerCase();
-	var dirname = __dirname+"/../data/"+(new Buffer(nowHost)).toString('base64');
+	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(nowHost)).toString('base64'));
 	var configFile = dirname+"/config.json";
 	var configJson = {};
 	if(!fs.existsSync(configFile)){

@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 const getIp = require("./hostToIp.js").hti;
 const base = require("./base.js");
 
@@ -13,7 +14,7 @@ let main = function(obj){
 	
 	newHost = newHost[1];
 	
-	var dirname = __dirname+"/../data/"+(new Buffer(newHost)).toString('base64');
+	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(newHost)).toString('base64'));
 	base.mkFolder(dirname);
 	
 	var configFile = dirname+"/config.json";

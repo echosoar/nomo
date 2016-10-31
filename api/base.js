@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const hostWINXP = "C:/Windows/System32/drivers/etc/hosts";
+const hostOSX = "/etc/hosts";
 
 
 let mkFolder = dirname => {
@@ -31,9 +32,16 @@ let deleteHost = host => {
 	host = host.toLowerCase();
 	let hostFileOpen = false;
 	let hostFile;
+	let hostFileAddr;
 	if(fs.existsSync(hostWINXP)){
 		hostFile = fs.readFileSync(hostWINXP).toString();
 		hostFileOpen = true;
+		hostFileAddr = hostWINXP;
+	}
+	if(fs.existsSync(hostOSX)){
+		hostFile = fs.readFileSync(hostOSX).toString();
+		hostFileOpen = true;
+		hostFileAddr = hostOSX;
 	}
 	if(hostFileOpen){
 		var lineArr = hostFile.split("\r\n");
@@ -52,9 +60,8 @@ let deleteHost = host => {
 			}
 			resHost.push(lineArr[i]);
 		}
-	}
-	if(fs.existsSync(hostWINXP)){
-		fs.writeFileSync(hostWINXP, resHost.join("\r\n"));
+
+		fs.writeFileSync(hostFileAddr, resHost.join("\r\n"));
 		hostFileOpen = false;
 		return true;
 	}
@@ -65,9 +72,16 @@ let addHost = host => {
 	host = host.toLowerCase();
 	let hostFileOpen = false;
 	let hostFile;
+	let hostFileAddr;
 	if(fs.existsSync(hostWINXP)){
 		hostFile = fs.readFileSync(hostWINXP).toString();
 		hostFileOpen = true;
+		hostFileAddr = hostWINXP;
+	}
+	if(fs.existsSync(hostOSX)){
+		hostFile = fs.readFileSync(hostOSX).toString();
+		hostFileOpen = true;
+		hostFileAddr = hostOSX;
 	}
 	if(hostFileOpen){
 		var lineArr = hostFile.split("\r\n");
@@ -93,10 +107,12 @@ let addHost = host => {
 			}
 			resHost.push(lineArr[i]);
 		}
-	}
-	
-	if(fs.existsSync(hostWINXP)){
-		fs.writeFileSync(hostWINXP, resHost.join("\r\n"));
+		
+		if(!nomoAdded){
+			resHost.push("# NOMO HOST", "127.0.0.1 "+host, "# NOMO HOST END");
+		}
+
+		fs.writeFileSync(hostFileAddr, resHost.join("\r\n"));
 		hostFileOpen = false;
 		return true;
 	}

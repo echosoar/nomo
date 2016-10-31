@@ -1,5 +1,7 @@
 "use strict";
 const fs = require("fs");
+const path = require("path");
+
 let main = obj => {
 
 	var ips = /\?ip=(.*?)&host=(.*?)$/.exec(obj.url);
@@ -10,7 +12,7 @@ let main = obj => {
 	var ip = ips[1].replace(/(^\s*)|(\s*$)/g,"");
 	var nowHost = ips[2].replace(/(^\s*)|(\s*$)/g,"");
 	nowHost = nowHost.toLowerCase();
-	var dirname = __dirname+"/../data/"+(new Buffer(nowHost)).toString('base64');
+	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(nowHost)).toString('base64'));
 	var configFile = dirname+"/config.json";
 	if(fs.existsSync(configFile)){
 		let hostFile = fs.readFileSync(configFile).toString();
