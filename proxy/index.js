@@ -1,13 +1,11 @@
 "use strict";
 
 var fs = require("fs");
+var path = require("path");
 var http = require('http');
 var request = require('request'); 
+var isBinary = require('./isBinary.js');
 
-let isBinary = contentType => {
-	if(/image/i.test(contentType)) return true;
-	return false;
-}
 
 
 let Proxy = (req,res) => {
@@ -20,7 +18,7 @@ let Proxy = (req,res) => {
 		
 		let api = url.replace(/\?(.*)$/,"");
 		
-		var dirname = __dirname+"/../data/"+(new Buffer(host)).toString('base64');
+		var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 		var configFile = dirname + "/config.json";
 		var apiFile = dirname+"/"+(new Buffer(api)).toString('base64')+".json";
 		
@@ -68,13 +66,9 @@ let Proxy = (req,res) => {
 				request(options,callback);
 			}
 		}else{
-			url = 'http://'+host+url;
-			var options = {
-				url: url,
-				headers: req.headers
-			}; 
-
-			request(options,callback);
+			res.writeHead(200, {"Content-Type":"text/html"});
+			res.write("Nomo config error!");
+			res.end();
 		}
 }
 
