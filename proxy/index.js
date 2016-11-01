@@ -5,8 +5,9 @@ var path = require("path");
 var http = require('http');
 var request = require('request'); 
 var isBinary = require('./isBinary.js');
+var https = require("./https.js");
 
-
+https();
 
 let Proxy = (req,res) => {
 

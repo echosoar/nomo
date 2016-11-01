@@ -3,10 +3,11 @@ var fs = require("fs");
 var path = require("path");
 var https = require('https');
 var request = require('request'); 
+var isBinary = require('./isBinary.js');
 
 let Proxys = () => {
 		
-	console.log("\n----------------\n Nomo proxy https request need setting chrome HSTS\n Please open page ‘chrome://net-internals/#hsts’ at chrome\n And delete domain that you bind at nomo! \n----------------\n");
+	console.log("\n==================\n Nomo proxy https request need setting chrome HSTS\n Please open page ‘chrome://net-internals/#hsts’ at chrome\n And delete domain that you bind at nomo! \n==================\n");
 	
 	let option = {
 		key: fs.readFileSync(__dirname + '/../ssl/nomo-key.pem', 'utf8'),
@@ -16,7 +17,7 @@ let Proxys = () => {
 	let server = https.createServer(option, (req, res)=>{
 		
 		let host = req.headers.host.toLowerCase();
-		console.log(host)
+
 		let hostReg = new RegExp("^https://"+host);
 		
 		let url = req.url.replace(hostReg,"");
@@ -35,11 +36,11 @@ let Proxys = () => {
 				
 				
 			}else{
-				console.log('[ -- Normal Request -- ]:','https://'+host+url);
+				console.log('[ -- Normal HTTPS Request -- ]:','https://'+host+url);
 				url = 'https://'+config.ip+url;
 				var options = {
 					url: url,
-					headers: {"Host":host,"Cookie":req.headers.cookie}
+					headers: {"Host":host}
 				}; 
 				
 				request(options,(error, response, body) => { 
@@ -51,13 +52,15 @@ let Proxys = () => {
 						if(isBinary(response.headers["content-type"])){
 							var options = {
 								url: response.request.href,
-								headers: response.request.headers,
+								headers: {"Host":host},
 								encoding: 'binary'
 							};
 							request(options,(error,responseBinary)=>{
-								res.writeHead(responseBinary.statusCode, responseBinary.headers);
-								res.write(responseBinary.body, "binary");
-								res.end();
+								if(error==null){
+									res.writeHead(responseBinary.statusCode, responseBinary.headers);
+									res.write(responseBinary.body, "binary");
+									res.end();
+								}
 							});
 						}else{
 							res.writeHead(response.statusCode,response.headers);
@@ -73,9 +76,7 @@ let Proxys = () => {
 			res.end();
 		}
 	}).listen(443);
-	
 }
-Proxys();
 module.exports = Proxys;
 
 
