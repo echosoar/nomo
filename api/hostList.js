@@ -3,11 +3,21 @@
 const fs = require("fs");
 
 const hostWINXP = "C:/Windows/System32/drivers/etc/hosts";
+const hostOSX = "/etc/hosts";
 
 let main = function(obj){
 	
+	let hostFile = false;
+	
 	if(fs.existsSync(hostWINXP)){
-		let hostFile = fs.readFileSync(hostWINXP).toString();
+		hostFile = fs.readFileSync(hostWINXP).toString();
+	}
+	
+	if(fs.existsSync(hostOSX)){
+		hostFile = fs.readFileSync(hostOSX).toString();
+	}
+	
+	if(hostFile!==false){
 		
 		var lineArr = hostFile.split("\r\n");
 		var nomoHostBool = false;

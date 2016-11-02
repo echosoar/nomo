@@ -12,7 +12,7 @@ var app = Koa();
 
 router.get("/",Page);
 
-router.get("/api/*",Api);
+router.get("/api/*", Api);
 
 app.use(router.middleware());
 
