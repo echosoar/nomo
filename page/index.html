@@ -620,5 +620,21 @@
 				nodeStyle("add-new-api-isHttp-btn").className = "add-new-api-isHttp-btnHttp";
 			}
 		}
+		nodeStyle("add-new-api-ok").onclick = function(){
+			var address = nodeStyle("add-new-apiaddress").value;
+			
+			var xhr = getXhr();
+			xhr.open("GET","/api/addNewApi/?host="+address+"&https="+isHttps);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var data = JSON.parse(xhr.responseText);
+						
+					}
+				}
+			}
+			xhr.send(null);
+			
+		}
 	</script>
 </html>
