@@ -540,7 +540,7 @@
 		nodeStyle("api-info-setip").onclick = function(){
 			var host = nodeStyle("title-api-host").innerHTML;
 			var res = prompt("Please Input Ip Address","");
-			var host = nodeStyle("title-api-host").innerHTML;
+			
 			if(/(\d{1,3}\.){3}\d{1,3}/.test(res)){
 				
 				var xhr = getXhr();
@@ -621,10 +621,14 @@
 			}
 		}
 		nodeStyle("add-new-api-ok").onclick = function(){
+			var host = nodeStyle("title-api-host").innerHTML;
 			var address = nodeStyle("add-new-apiaddress").value;
-			
+			if(!/^\//.test(address)){
+				alert("Please input Api Name!");
+				return;
+			}
 			var xhr = getXhr();
-			xhr.open("GET","/api/addNewApi/?host="+address+"&https="+isHttps);
+			xhr.open("GET","/api/addNewApi/?host="+host+"&https="+isHttps+"&api="+address);
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==4){
 					if(xhr.status == 200){

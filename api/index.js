@@ -6,6 +6,7 @@ const deleteHost = require("./deleteHost.js");
 const getIpByHost = require("./getIpByHost.js");
 const getConfigByHost = require("./getConfigByHost.js");
 const setHostIp = require("./setHostIp.js");
+const addNewApi = require("./addNewApi.js");
 
 let index = function * (next){
 	var url = this.url.split("/");
@@ -29,6 +30,9 @@ let index = function * (next){
 			break;
 		case "setHostIp":
 			setHostIp(that);
+			break;
+		case "addNewApi":
+			addNewApi(that);
 			break;
 	}
 	yield next;
