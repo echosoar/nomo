@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require("path");
+const fs = require("fs");
 
 let addNewApi = obj => {
 	var $_GET = /\?host=(.*?)&https=(.*?)&api=(.*?)$/.exec(obj.url);

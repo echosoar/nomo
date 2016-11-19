@@ -96,7 +96,7 @@
 	
 	#add-new-form {
 		display:none;
-		background:#709;
+		background:#9c9;
 		height:60px;
 		line-height:60px;
 		color:#fff;
@@ -160,16 +160,16 @@
 		font-weight:bold;
 		text-align:center;
 		cursor:pointer;
-		background:#696;
+		background:#9c9;
 		transition:background .5s ease;
 	}
 	.btn-circle:hover{
-		background:#363;
+		background:#696;
 	}
 	#add-new-ok,#add-new-cancel{
 		position:absolute;
 		top:10px;
-		background:#99f;
+		background:#696;
 		transition:background .5s ease;
 	}
 	#add-new-ok {
@@ -179,7 +179,7 @@
 		right:10px;
 	}
 	#add-new-ok:hover,#add-new-cancel:hover{
-		background:#cc0;
+		background:#363;
 	}
 	
 	#add-new-api-ok,#add-new-api-cancel{
@@ -204,16 +204,16 @@
 		right:110px;
 		width:78px;
 		border-radius:20px;
+		font-weight:bold;
+		color: #fff;
 		height:40px;
 		transition: background .5s ease, color .5s ease;
 	}
 	.add-new-api-isHttp {
-		background:#333;
-		color: #333;
+		background:#696;
 	}
 	.add-new-api-isHttps {
-		background:#69f;
-		color: #fff;
+		background:#363;
 	}
 	#add-new-api-isHttp:before {
 		content:'Http';
@@ -284,11 +284,11 @@
 
 	}
 	.host-list-item{
-		background:#9c9;
+		background:#efefef;
 		height:60px;
 		line-height:60px;
 		color:#fff;
-		text-shadow:0 0 2px #000;
+		text-shadow:0 0 3px #000;
 		font-size:24px;
 		font-weight:bold;
 		position:relative;
@@ -518,6 +518,7 @@
 			}else if(target.innerHTML == "Api"){
 				var host = target.parentNode.innerHTML.split("<")[0];
 				nodeStyle("main",{display:"none"});
+				nodeStyle("add-new-api-form",{display:"none"});
 				nodeStyle("api",{display:"block"});
 				nodeStyle("title-api-host").innerHTML= host;
 				getConfig(host);

@@ -1,4 +1,9 @@
 "use strict";
+
+console.log(" ==================\n ");
+console.log("        Thanks use Nomo      ");
+
+
 const http = require("http");
 const Open = require("open");
 const Koa = require("koa");
@@ -28,9 +33,7 @@ let nomo = (port) => {
 		
 		app.listen(port);
 		Open("http://127.0.0.1:"+port+"/");
-		console.log("==================");
-		console.log(" Thanks use nomo! ");
-		console.log("==================");
+
 	});
 	server.on('error', function (err) {
 		if (err.code === 'EADDRINUSE') { // 端口已经被使用
