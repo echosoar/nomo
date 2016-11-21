@@ -22,7 +22,7 @@ let main = function(obj){
 		var config = {};
 		config.host = newHost;
 		config.ip = getIp(newHost);
-		config.api = [];
+		config.api = {};
 		fs.writeFileSync(configFile,JSON.stringify(config));
 	}
 	var addRes = base.addHost(newHost);
