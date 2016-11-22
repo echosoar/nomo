@@ -1,21 +1,21 @@
 var isHttps = false;
 		
-		var getXhr = function(){
-			if(window.XMLHttpRequest){
-				var xhr=new XMLHttpRequest();
-			}else{
-				try{
-					var xhr=new ActiveXObject("Msxml2.XMLHTTP");
-				}catch(e){
-					try{
-						var xhr=new ActiveXObject("Microsoft.XMLHTTP");
-					}catch(e){
-						throw new TypeError('Unsupport XMLHttpRequest');
-					}
-				}
+var getXhr = function(){
+	if(window.XMLHttpRequest){
+		var xhr=new XMLHttpRequest();
+	}else{
+		try{
+			var xhr=new ActiveXObject("Msxml2.XMLHTTP");
+		}catch(e){
+			try{
+				var xhr=new ActiveXObject("Microsoft.XMLHTTP");
+			}catch(e){
+				throw new TypeError('Unsupport XMLHttpRequest');
 			}
-			return xhr;
 		}
+	}
+	return xhr;
+}
 		
 		function getHostList(){
 			var xhr = getXhr();
@@ -31,7 +31,7 @@ var isHttps = false;
 								var temElement = document.createElement("div");
 								temElement.setAttribute("id","host-list-item-"+index);
 								temElement.setAttribute("class","host-list-item");
-								temElement.innerHTML = v + '<i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
+								temElement.innerHTML = v + '<div class="host-list-onOrOff host-list-onOrOff-off"><i></i></div><i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
 								fragment.appendChild(temElement);
 							});
 							
