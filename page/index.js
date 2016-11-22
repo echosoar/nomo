@@ -4,8 +4,8 @@ const fs = require("fs");
 
 let index = function * (next){
 
-	let url = this.request.url;
-	if(url=="/")url="/index.html";
+	let url = this.request.url.replace("/nomo","");
+	if(!url||url=="/")url="/index.html";
 	
 	let ext = url.split(".").pop();
 	

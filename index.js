@@ -1,7 +1,7 @@
 "use strict";
 
 console.log(" ==================\n ");
-console.log("        Thanks use Nomo      ");
+console.log(" Thanks use Nomo ");
 
 
 const http = require("http");
@@ -15,9 +15,10 @@ const Proxy = require("./proxy");
 var router = new Router()
 var app = Koa();
 
-router.get("/",Page);
-
 router.get("/api/*", Api);
+router.get("/nomo/*",Page);
+
+
 
 app.use(router.middleware());
 
@@ -32,7 +33,7 @@ let nomo = (port) => {
 	server.on('listening', function () {
 		
 		app.listen(port);
-		Open("http://127.0.0.1:"+port+"/");
+		Open("http://127.0.0.1:"+port+"/nomo/");
 
 	});
 	server.on('error', function (err) {
