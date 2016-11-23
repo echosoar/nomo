@@ -1,5 +1,8 @@
 "use strict";
 
+let fs = require("fs");
+let path = require("path");
+
 const hostList = require("./hostList.js");
 const addNewHost = require("./addNewHost.js");
 const deleteHost = require("./deleteHost.js");
@@ -7,6 +10,14 @@ const getIpByHost = require("./getIpByHost.js");
 const getConfigByHost = require("./getConfigByHost.js");
 const setHostIp = require("./setHostIp.js");
 const addNewApi = require("./addNewApi.js");
+
+(function(){
+	let dataDir = path.resolve(__dirname, "../data/");
+	if(!fs.existsSync(dataDir)){
+		fs.mkdirSync(dataDir);
+	}
+}());
+
 
 let index = function * (next){
 	var url = this.url.split("/");

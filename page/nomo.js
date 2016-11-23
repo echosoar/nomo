@@ -31,7 +31,7 @@ var getXhr = function(){
 								var temElement = document.createElement("div");
 								temElement.setAttribute("id","host-list-item-"+index);
 								temElement.setAttribute("class","host-list-item");
-								temElement.innerHTML = v + '<div class="host-list-onOrOff host-list-onOrOff-off"><i></i></div><i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
+								temElement.innerHTML = v + '<div class="host-list-onOrOff host-list-onOrOff-on"><i></i></div><i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
 								fragment.appendChild(temElement);
 							});
 							
