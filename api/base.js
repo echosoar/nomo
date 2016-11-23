@@ -54,7 +54,7 @@ let deleteHost = host => {
 				nomoHostBool = false;
 			}else if(nomoHostBool){
 				let temHost = lineArr[i].split(/\s/);
-				if(temHost[1]==host){
+				if(temHost[1]==host || (temHost[0]=="#" && temHost[2]==host)){
 					continue;
 				}
 			}
@@ -100,7 +100,7 @@ let addHost = host => {
 				}
 			}else if(nomoHostBool){
 				let temHost = lineArr[i].split(/\s/);
-				if(temHost[1]==host){
+				if(temHost[1]==host||(temHost[0]=="#" && temHost[2]==host)){
 					isHostExist = true;
 					return true;
 				}

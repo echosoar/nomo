@@ -29,10 +29,24 @@ let main = function(obj){
 				nomoHostBool = false;
 			}else if(nomoHostBool){
 				let temHost = lineArr[i].split(/\s/);
-				if(temHost[1])
-					nomoHost.push(temHost[1]);
+				let isOpen = true;
+				let host = temHost[1];
+				if(temHost[0]=="#"){
+					host = temHost[2];
+					isOpen = false;
+				}
+				if(host){
+					nomoHost.push({
+						host:host,
+						isOpen:isOpen
+					});
+				
+				}
+					
 			}
 		}
+		
+		console.log(nomoHost.reverse())
 		
 		obj.body = JSON.stringify({num:nomoHost.length,data:nomoHost.reverse()});
 	}
