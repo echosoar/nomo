@@ -8,6 +8,8 @@ let addNewApi = obj => {
 	var nowHost = $_GET[1];
 	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(nowHost)).toString('base64'));
 	var configFile = dirname+"/config.json";
+	var config = JSON.parse(fs.readFileSync(configFile));
+	
 }
 
 module.exports = addNewApi;
