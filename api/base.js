@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 const hostWINXP = "C:/Windows/System32/drivers/etc/hosts";
 const hostOSX = "/etc/hosts";
 
@@ -55,6 +56,8 @@ let deleteHost = host => {
 			}else if(nomoHostBool){
 				let temHost = lineArr[i].split(/\s/);
 				if(temHost[1]==host || (temHost[0]=="#" && temHost[2]==host)){
+					let hostDirName = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
+					deleteFolderRecursive(hostDirName);
 					continue;
 				}
 			}
@@ -119,9 +122,57 @@ let addHost = host => {
 	return false;
 }
 
+let hostStatus = host => {
+	host = host.toLowerCase();
+	let hostFileOpen = false;
+	let hostFile;
+	let hostFileAddr;
+	let nowStatus = false;
+	if(fs.existsSync(hostWINXP)){
+		hostFile = fs.readFileSync(hostWINXP).toString();
+		hostFileOpen = true;
+		hostFileAddr = hostWINXP;
+	}
+	if(fs.existsSync(hostOSX)){
+		hostFile = fs.readFileSync(hostOSX).toString();
+		hostFileOpen = true;
+		hostFileAddr = hostOSX;
+	}
+	if(hostFileOpen){
+		var lineArr = hostFile.split("\r\n");
+		var resHost = [];
+		var nomoHostBool = false;	
+		for(var i = 0;i<lineArr.length;i++){
+			if(lineArr[i] == "# NOMO HOST"){
+				nomoHostBool = true;
+			}else if(lineArr[i] == "# NOMO HOST END"){
+				nomoHostBool = false;
+			}else if(nomoHostBool){
+				let temHost = lineArr[i].split(/\s/);
+				if(temHost[1]==host || (temHost[0]=="#" && temHost[2]==host)){
+					if(temHost[0]=="#"){
+						lineArr[i] = "127.0.0.1 "+host;
+						nowStatus = true;
+					}else{
+						lineArr[i] = "# 127.0.0.1 "+host;
+						nowStatus = false;
+					}
+				}
+			}
+			resHost.push(lineArr[i]);
+		}
+
+		fs.writeFileSync(hostFileAddr, resHost.join("\r\n"));
+		hostFileOpen = false;
+		return nowStatus;
+	}
+	return nowStatus;
+}
+
 module.exports = {
 	deleteHost : deleteHost,
 	deleteFolder : deleteFolderRecursive,
 	mkFolder : mkFolder,
-	addHost : addHost
+	addHost : addHost,
+	hostStatus: hostStatus
 }

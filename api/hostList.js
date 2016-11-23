@@ -46,8 +46,6 @@ let main = function(obj){
 			}
 		}
 		
-		console.log(nomoHost.reverse())
-		
 		obj.body = JSON.stringify({num:nomoHost.length,data:nomoHost.reverse()});
 	}
 }

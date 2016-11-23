@@ -31,7 +31,7 @@ var getXhr = function(){
 								var temElement = document.createElement("div");
 								temElement.setAttribute("id","host-list-item-"+index);
 								temElement.setAttribute("class","host-list-item");
-								temElement.innerHTML = v.host + '<div class="host-list-onOrOff host-list-onOrOff-'+(v.isOpen?'on':'off')+'"><i></i></div><i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
+								temElement.innerHTML = v.host + '<div class="host-list-onOrOff host-list-onOrOff-'+(v.isOpen?'on':'off')+'"><i class="host-list-onOrOff-i"></i></div><i class="host-list-api btn-circle" id="host-list-api-'+index+'">Api</i><i class="host-list-del btn-circle" id="host-list-del-'+index+'">Del</i>';
 								fragment.appendChild(temElement);
 							});
 							
@@ -122,6 +122,28 @@ var getXhr = function(){
 				nodeStyle("api",{display:"block"});
 				nodeStyle("title-api-host").innerHTML= host;
 				getConfig(host);
+			}else if(target.className.indexOf("host-list-onOrOff")!=-1){
+				if(target.nodeName.toLowerCase()=="i") target = target.parentNode;
+				console.log(target.childNodes);
+				target.childNodes[0].innerHTML = "wait";
+				var preHTML = target.parentNode.innerHTML;
+				var host = preHTML.split("<")[0];
+				var xhr = getXhr();
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState==4){
+						if(xhr.status == 200){
+							target.childNodes[0].innerHTML = "";
+							let res = JSON.parse(xhr.responseText);
+							if(res.res){
+								target.className = "host-list-onOrOff host-list-onOrOff-on";
+							}else{
+								target.className = "host-list-onOrOff host-list-onOrOff-off";
+							}
+						}
+					}
+				}
+				xhr.open("GET","/api/openOrCloseHost/?host="+host);
+				xhr.send(null);
 			}
 		}
 		
