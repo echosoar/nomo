@@ -437,3 +437,38 @@
 	#add-new-host:hover,#api-info-regetip:hover,#add-new-api:hover,#return-to-host-list:hover,#api-info-setip:hover{
 		background:#696;
 	}
+	
+	
+	.api-list-item {
+		background:#efefef;
+		height:60px;
+		line-height:60px;
+		color:#fff;
+		text-shadow:0 0 0;
+		font-size:24px;
+		font-weight:bold;
+		position:relative;
+		text-align:left;
+		padding-left:80px;
+		border-radius:5px;
+		margin-top:10px;
+	}
+	.api-list-item-http {
+		color:#9c9;
+	}
+	.api-list-item-https {
+		color:#363;
+	}
+	.api-list-item-http:before,.api-list-item-https:before{
+		position:absolute;
+		left:0;
+		top:0;
+		height:60px;
+		line-height:60px;
+		width:80px;
+		font-size:12px;
+		text-align:center;
+		font-weight:normal;
+	}
+	.api-list-item-http:before{ content:'Http'; }
+	.api-list-item-https:before{ content:'Https'; }

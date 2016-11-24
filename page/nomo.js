@@ -203,11 +203,23 @@ var getXhr = function(){
 						
 						nodeStyle("api-info-setip",{display:"block"});
 						nodeStyle("api-info-regetip",{display:"block"});
+						
+						listApi(data.config.api);
 					}
 				}
 			}
 			xhr.send(null);
 		}
+		
+		function listApi(api){
+			var html = "";
+			for(var key in api){
+				var item = api[key];
+				html += '<div class="api-list-item api-list-item-'+(item.isHttps?'https':'http')+'">'+item.name+'</div>';
+			}
+			nodeStyle("api-item-list").innerHTML = html;
+		}
+		
 		function getIp(host){
 			var xhr = getXhr();
 			xhr.open("GET","/api/getIpByHost/?host="+host);
@@ -256,7 +268,7 @@ var getXhr = function(){
 				if(xhr.readyState==4){
 					if(xhr.status == 200){
 						var data = JSON.parse(xhr.responseText);
-						
+						nodeStyle("add-new-api-form",{display:"none"});
 					}
 				}
 			}
