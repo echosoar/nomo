@@ -263,3 +263,7 @@ var getXhr = function(){
 			xhr.send(null);
 			
 		}
+		
+		nodeStyle("add-new-api-cancel").onclick = function(){
+			nodeStyle("add-new-api-form",{display:"none"});
+		}
