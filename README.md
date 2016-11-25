@@ -135,7 +135,7 @@ For example:
 				age:{
 					mode:'placeholder',
 					value:'@integer(10, 70)'
-				}',
+				},
 				hobby:{
 					mode:'template',
 					range:'1-3',
