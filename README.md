@@ -64,11 +64,64 @@ How to use?
 
 You can choose the returned data mode of the requested interface.
 
-+ "mock" : Use Mock.js
 + "fixed" : [Default] Use fixed data. 
++ "mock" : Use Mock.js
 + "request" : You can configure data mappings of requested data to returned data.
 
 ### returnConfig
+
+#### fixed
+
+mode: ['string', 'number', 'boolean', 'array', 'object', 'function']
+
+For example
+
+```javascript
+    
+	{
+		returnMode: "fixed",
+		returnConfig: {
+			mode: 'array',
+			value: [
+				{
+					mode:'number',
+					value: 123456
+				},
+				{
+					mode:'object',
+					value: {
+						name: {
+							mode:'string',
+							value:'soar'
+						},
+						age:{
+							mode:'number',
+							value:21
+						},
+						hobby:{
+							mode:'array',
+							value:[
+								{
+									mode:'string',
+									value:'篮球'
+								},
+								{
+									mode:'string',
+									value:'足球'
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	}
+	
+	The return data is:
+	
+	[123456, {name:'soar', age:21, hobby:['篮球','足球']}]
+	
+```
 
 #### mock:
 
