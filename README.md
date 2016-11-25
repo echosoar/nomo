@@ -49,19 +49,18 @@ How to use?
   
 ***
 
-### Api Config File：
+## Api Config File：
 
 ```javascript
     
 	{
 		returnMode:String,
-		returnConfig:Object,
-		dataMap:Object
+		returnConfig:Object
 	}
 	
 ```
 
-##### returnMode 
+### returnMode 
 
 You can choose the returned data mode of the requested interface.
 
@@ -69,7 +68,9 @@ You can choose the returned data mode of the requested interface.
 + "fixed" : [Default] Use fixed data. 
 + "request" : You can configure data mappings of requested data to returned data.
 
-##### returnConfig
+### returnConfig
+
+#### mock:
 
 mode: ['placeholder', 'template', 'object', 'array']
 
