@@ -39,11 +39,36 @@
 
 ```
 
+***
+
 How to use?
 
     let nomo = require("nomo");
   
     nomo.start();
   
+***
 
+### Api Config File：
+
+```JSON
+    
+	{
+		returnMode:String,
+		returnConfig:Object,
+		dataMap:Object
+	}
+	
+```
+
+##### returnMode 
+
+You can choose the returned data mode of the requested interface.
+
++ "mock" : Use Mock.js
++ "rand" : Data by random.
++ "request" : You can configure data mappings of requested data to returned data.
+
+***
+  
  Data Mock Tool.
