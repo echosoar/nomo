@@ -70,7 +70,7 @@
 		margin:0 auto;
 	}
 	
-	#title-host,#title-api {
+	#title-host,#title-api,#title-info {
 		height:60px;
 		line-height:60px;
 		font-size:20px;
@@ -273,6 +273,7 @@
 		right:10px;
 	}
 	
+	
 /* Api */
 	
 	#add-new-api-form {
@@ -372,7 +373,7 @@
 	}
 	
 	
-	#return-to-host-list {
+	#return-to-host-list,#return-to-api-list {
 		display:inline-block;
 		color:#fff;
 		font-size:12px;
@@ -434,7 +435,7 @@
 		transition:background .5s ease;
 	}
 	
-	#add-new-host:hover,#api-info-regetip:hover,#add-new-api:hover,#return-to-host-list:hover,#api-info-setip:hover{
+	#add-new-host:hover,#api-info-regetip:hover,#add-new-api:hover,#return-to-host-list:hover,#return-to-api-list:hover,#api-info-setip:hover{
 		background:#696;
 	}
 	
@@ -442,6 +443,10 @@
 	.api-list-item {
 		background:#efefef;
 		height:60px;
+		white-space:nowrap;
+		width:760px;
+		padding-right:120px;
+		overflow:hidden;
 		line-height:60px;
 		color:#fff;
 		text-shadow:0 0 0;
@@ -472,3 +477,71 @@
 	}
 	.api-list-item-http:before{ content:'Http'; }
 	.api-list-item-https:before{ content:'Https'; }
+	
+	.api-list-del {
+		position:absolute;
+		top:10px;
+		right:10px;
+		color:#fff;
+		text-shadow:0 0 2px #000;
+	}
+	.api-list-info {
+		position:absolute;
+		top:10px;
+		right:60px;
+		color:#fff;
+		text-shadow:0 0 2px #000;
+	}
+	
+/* Info */
+
+#info{
+	position:relative;
+	display:none;
+	top: 60px;
+	width:960px;
+	margin:0 auto;
+}
+#title-info{
+	width:960px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+#info-container-nav span{
+	position:relative;
+	display:inline-block;
+	padding:0 10px;
+	height:32px;
+	line-height:32px;
+	background:#9c9;
+	color:#fff;
+	font-size:12px;
+	margin-right:10px;
+	border-radius:3px;
+	cursor:pointer;
+	transition:background .5s ease;
+}
+#info-container-nav span:hover{
+	background:#363;
+}
+#info-container-nav span.infoActive{
+	background:#363;
+}
+#info-container-nav span.infoActive:before{
+	content:' ';
+	display:block;
+	position:absolute;
+	left:50%;
+	transform: translate(-6px, 30px);
+	border:6px solid transparent;
+	border-bottom:8px solid #f9f9f9;
+	width:0;
+	height:0;
+}
+.info-contain{
+	background:#f9f9f9;
+	padding:20px;
+	margin-top:12px;
+	border-radius:3px;
+}

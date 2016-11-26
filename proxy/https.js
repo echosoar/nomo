@@ -26,14 +26,16 @@ let Proxys = () => {
 		
 		var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 		var configFile = dirname + "/config.json";
-		var apiFile = dirname+"/"+(new Buffer(api)).toString('base64')+".json";
+		var apiFile = dirname+"/"+(new Buffer('https#nomo#'+api)).toString('base64')+".json";
 		
 		if(fs.existsSync(configFile)){
 			var config = JSON.parse(fs.readFileSync(configFile).toString());
 			
 			if(fs.existsSync(apiFile)){
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
-				
+				res.writeHead("200",{"Content-Type":"text/html"});
+				res.write("Nomo Success!");
+				res.end();
 				
 			}else{
 				console.log('[ -- Normal HTTPS Request -- ]:','https://'+host+url);

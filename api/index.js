@@ -11,6 +11,7 @@ const getConfigByHost = require("./getConfigByHost.js");
 const setHostIp = require("./setHostIp.js");
 const addNewApi = require("./addNewApi.js");
 const openOrCloseHost = require("./openOrCloseHost.js");
+const deleteHostApi = require("./deleteHostApi.js");
 
 (function(){
 	let dataDir = path.resolve(__dirname, "../data/");
@@ -48,6 +49,9 @@ let index = function * (next){
 			break;
 		case 'openOrCloseHost':
 			openOrCloseHost(that);
+			break;
+		case 'deleteHostApi':
+			deleteHostApi(that);
 			break;
 	}
 	yield next;

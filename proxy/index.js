@@ -21,7 +21,7 @@ let Proxy = (req,res) => {
 		
 		var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 		var configFile = dirname + "/config.json";
-		var apiFile = dirname+"/"+(new Buffer(api)).toString('base64')+".json";
+		var apiFile = dirname+"/"+(new Buffer('http#nomo#'+api)).toString('base64')+".json";
 		
 		
 		var callback = (error, response, body) => { 
@@ -54,7 +54,9 @@ let Proxy = (req,res) => {
 			
 			if(fs.existsSync(apiFile)){
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
-				
+				res.writeHead("200",{"Content-Type":"text/html"});
+				res.write("Nomo Https Success!");
+				res.end();
 				
 			}else{
 				console.log('[ -- Normal Request -- ]:','http://'+host+url);

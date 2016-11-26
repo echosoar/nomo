@@ -58,6 +58,70 @@ var getXhr = function(){
 			}
 			return element;
 		}
+		
+		
+		function getConfig(host){
+			nodeStyle("api-info-ip").innerHTML = "Loading IP Address";
+			var xhr = getXhr();
+			xhr.open("GET","/api/getConfigByHost/?host="+host);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var data = JSON.parse(xhr.responseText);
+						
+						if(data.res==1 && data.config.ip!=false){
+							nodeStyle("api-info-ip").innerHTML = data.config.ip;
+						}else{
+							nodeStyle("api-info-ip").innerHTML ="Can not get ip , please manually set!";
+						}
+						
+						nodeStyle("api-info-setip",{display:"block"});
+						nodeStyle("api-info-regetip",{display:"block"});
+						
+						listApi(data.config.api);
+					}
+				}
+			}
+			xhr.send(null);
+		}
+		
+		function listApi(api){
+			var html = "";
+			for(var key in api){
+				var item = api[key];
+				html += '<div class="api-list-item api-list-item-'+(item.isHttps?'https':'http')+'" id="api-list-item-'+key+'">'+item.name+'<i class="api-list-info btn-circle" id="api-list-info-'+key+'">Info</i><i class="api-list-del btn-circle" id="api-list-del-'+key+'">Del</i></div>';
+			}
+			nodeStyle("api-item-list").innerHTML = html;
+		}
+		
+		function getIp(host){
+			var xhr = getXhr();
+			xhr.open("GET","/api/getIpByHost/?host="+host);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var data = JSON.parse(xhr.responseText);
+						if(data.res==1 && data.ip!=false){
+							nodeStyle("api-info-ip").innerHTML = data.ip;
+						}else{
+							nodeStyle("api-info-ip").innerHTML ="Can not get ip , please manually set!";
+						}
+						nodeStyle("api-info-setip",{display:"block"});
+						nodeStyle("api-info-regetip",{display:"block"});
+					}
+				}
+			}
+			xhr.send(null);
+		}
+		
+		
+		function openApiInfo(host, api, apiName, isHttps){
+			nodeStyle("api",{display:"none"});
+			nodeStyle("info",{display:"block"});
+			nodeStyle("title-info-api").innerHTML = isHttps?'https':'http' + '://' + host + apiName;
+			nodeStyle("title-info-api").setAttribute("class",host);
+		}
+		
 	
 		setTimeout(function(){
 			nodeStyle("welcome",{"height":"60px","fontSize":"20px","backgroundColor":"#9c9"});
@@ -99,7 +163,7 @@ var getXhr = function(){
 			e = e || window.e;
 			var target = e.target || e.srcElement;
 			
-			if(target.innerHTML == "Del" && confirm("Do you really want to delete this one?")){
+			if(target.className.indexOf('host-list-del')!=-1 && target.innerHTML == "Del" && confirm("Do you really want to delete this one?")){
 				var id = target.getAttribute("id").split("-").pop();
 				var preHTML = target.parentNode.innerHTML;
 				var host = preHTML.split("<")[0];
@@ -115,6 +179,20 @@ var getXhr = function(){
 				}
 				xhr.open("GET","/api/deleteHost/?host="+host);
 				xhr.send(null);
+			}else if(target.className.indexOf('api-list-del')!=-1 && target.innerHTML == "Del" && confirm("Do you really want to delete this api?")){
+				var apiName = target.getAttribute("id").split("-").pop();
+				var host = nodeStyle("title-api-host").innerHTML;
+				target.parentNode.innerHTML = "Deleting...";
+				var xhr = getXhr();
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState==4){
+						if(xhr.status == 200){
+							nodeStyle("api-item-list").removeChild(nodeStyle("api-list-item-"+apiName));
+						}
+					}
+				}
+				xhr.open("GET","/api/deleteHostApi/?host="+host+"&api="+apiName);
+				xhr.send(null);
 			}else if(target.innerHTML == "Api"){
 				var host = target.parentNode.innerHTML.split("<")[0];
 				nodeStyle("main",{display:"none"});
@@ -122,6 +200,12 @@ var getXhr = function(){
 				nodeStyle("api",{display:"block"});
 				nodeStyle("title-api-host").innerHTML= host;
 				getConfig(host);
+			}else if(target.innerHTML == "Info"){
+				var api = target.getAttribute("id").split("-").pop();
+				var host = nodeStyle("title-api-host").innerHTML;
+				var apiName = target.parentNode.innerHTML.replace(/<i class=\".*$/,"");
+				var isHttps = target.parentNode.className.indexOf('api-list-item-https')!=-1;
+				openApiInfo(host, api, apiName, isHttps);
 			}else if(target.className.indexOf("host-list-onOrOff")!=-1){
 				if(target.nodeName.toLowerCase()=="i") target = target.parentNode;
 				console.log(target.childNodes);
@@ -153,6 +237,13 @@ var getXhr = function(){
 			nodeStyle("api-info-regetip",{display:"none"});
 			nodeStyle("api-info-setip",{display:"none"});
 		}
+		
+		nodeStyle("return-to-api-list").onclick = function(){
+			nodeStyle("info",{display:"none"});
+			getConfig(nodeStyle("title-info-api").className);
+			nodeStyle("api",{display:"block"});
+		}
+		
 		nodeStyle("api-info-regetip").onclick = function(){
 			nodeStyle("api-info-ip").innerHTML = "Loading IP Address";
 			nodeStyle("api-info-regetip",{display:"none"});
@@ -186,59 +277,6 @@ var getXhr = function(){
 				alert("Ip Address Format Error!");
 			}
 		}
-		function getConfig(host){
-			nodeStyle("api-info-ip").innerHTML = "Loading IP Address";
-			var xhr = getXhr();
-			xhr.open("GET","/api/getConfigByHost/?host="+host);
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState==4){
-					if(xhr.status == 200){
-						var data = JSON.parse(xhr.responseText);
-						
-						if(data.res==1 && data.config.ip!=false){
-							nodeStyle("api-info-ip").innerHTML = data.config.ip;
-						}else{
-							nodeStyle("api-info-ip").innerHTML ="Can not get ip , please manually set!";
-						}
-						
-						nodeStyle("api-info-setip",{display:"block"});
-						nodeStyle("api-info-regetip",{display:"block"});
-						
-						listApi(data.config.api);
-					}
-				}
-			}
-			xhr.send(null);
-		}
-		
-		function listApi(api){
-			var html = "";
-			for(var key in api){
-				var item = api[key];
-				html += '<div class="api-list-item api-list-item-'+(item.isHttps?'https':'http')+'">'+item.name+'</div>';
-			}
-			nodeStyle("api-item-list").innerHTML = html;
-		}
-		
-		function getIp(host){
-			var xhr = getXhr();
-			xhr.open("GET","/api/getIpByHost/?host="+host);
-			xhr.onreadystatechange = function(){
-				if(xhr.readyState==4){
-					if(xhr.status == 200){
-						var data = JSON.parse(xhr.responseText);
-						if(data.res==1 && data.ip!=false){
-							nodeStyle("api-info-ip").innerHTML = data.ip;
-						}else{
-							nodeStyle("api-info-ip").innerHTML ="Can not get ip , please manually set!";
-						}
-						nodeStyle("api-info-setip",{display:"block"});
-						nodeStyle("api-info-regetip",{display:"block"});
-					}
-				}
-			}
-			xhr.send(null);
-		}
 		
 		nodeStyle("add-new-api").onclick = function(){
 			nodeStyle("add-new-api-form",{display:"block"});
@@ -269,6 +307,7 @@ var getXhr = function(){
 					if(xhr.status == 200){
 						var data = JSON.parse(xhr.responseText);
 						nodeStyle("add-new-api-form",{display:"none"});
+						getConfig(host);
 					}
 				}
 			}
