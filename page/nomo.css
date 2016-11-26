@@ -572,7 +572,7 @@
 
 	display:inline-block;
 }
-span.info-body-data-name {
+span.info-body-data-name,span.info-body-data-value {
 	display:inline-block;
 	padding-left:10px;
 	padding-right:10px;

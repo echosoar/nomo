@@ -360,11 +360,11 @@ var getXhr = function(){
 			nodeStyle("info-main-body").innerHTML = bodyData;
 		}
 		function infoFun_body_fixed (obj, name){
-			var returnHtml = '<span class="info-body-data-'+obj.mode+'">'+(name!=null?'<span class="info-body-data-name">'+name+'</span>':'');
+			var returnHtml = '<span class="info-body-data-'+obj.mode+'">'+(name!=null?'<span class="info-body-data-name" contentEditable="true">'+name+'</span>':'');
 			returnHtml += '<span class="info-body-data-type">&lt;'+obj.mode+'&gt;</span>';
 			
 			if(obj.mode=="number" || obj.mode=="string"){
-				returnHtml += obj.value;
+				returnHtml += '<span class="info-body-data-value" contentEditable="true">'+obj.value+'</span>';
 			}else if(obj.mode=="array"){
 				for(var i =0;i<obj.value.length;i++){
 					returnHtml += infoFun_body_fixed(obj.value[i]);
