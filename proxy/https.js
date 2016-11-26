@@ -30,7 +30,7 @@ let Proxys = () => {
 		
 		if(fs.existsSync(configFile)){
 			var config = JSON.parse(fs.readFileSync(configFile).toString());
-			
+
 			if(fs.existsSync(apiFile)){
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
 				res.writeHead("200",{"Content-Type":"text/html"});

@@ -1,4 +1,6 @@
 var isHttps = false;
+var nowInfoBar = '';
+var nowInfoConfig = {host:'',api:'',apiName:'',isHttps:false};
 		
 var getXhr = function(){
 	if(window.XMLHttpRequest){
@@ -116,9 +118,15 @@ var getXhr = function(){
 		
 		
 		function openApiInfo(host, api, apiName, isHttps){
+			nowInfoConfig = {
+				host: host,
+				api: api,
+				apiName: apiName,
+				isHttps: isHttps
+			}
 			nodeStyle("api",{display:"none"});
 			nodeStyle("info",{display:"block"});
-			nodeStyle("title-info-api").innerHTML = isHttps?'https':'http' + '://' + host + apiName;
+			nodeStyle("title-info-api").innerHTML = (isHttps?'https':'http') + '://' + host + apiName;
 			nodeStyle("title-info-api").setAttribute("class",host);
 		}
 		
@@ -206,6 +214,7 @@ var getXhr = function(){
 				var apiName = target.parentNode.innerHTML.replace(/<i class=\".*$/,"");
 				var isHttps = target.parentNode.className.indexOf('api-list-item-https')!=-1;
 				openApiInfo(host, api, apiName, isHttps);
+				changeInfoBar("body");
 			}else if(target.className.indexOf("host-list-onOrOff")!=-1){
 				if(target.nodeName.toLowerCase()=="i") target = target.parentNode;
 				console.log(target.childNodes);
@@ -236,6 +245,12 @@ var getXhr = function(){
 			nodeStyle("main",{display:"block"});
 			nodeStyle("api-info-regetip",{display:"none"});
 			nodeStyle("api-info-setip",{display:"none"});
+		}
+		
+		function infoClose(){
+			nodeStyle("info-contain-"+nowInfoBar).removeAttribute("class");
+			nodeStyle("info-main-"+nowInfoBar).style.display = "none";
+			nowInfoBar = "";
 		}
 		
 		nodeStyle("return-to-api-list").onclick = function(){
@@ -317,4 +332,57 @@ var getXhr = function(){
 		
 		nodeStyle("add-new-api-cancel").onclick = function(){
 			nodeStyle("add-new-api-form",{display:"none"});
+		}
+		
+		function changeInfoBar(barName){
+
+			if(barName == nowInfoBar)return;
+			var oldObj = nodeStyle("info-contain-"+nowInfoBar);
+			if(oldObj){
+				oldObj.setAttribute("class", "");
+				nodeStyle("info-main-"+nowInfoBar).style.display = "none";
+			}
+
+			nodeStyle("info-contain-"+barName).setAttribute("class", "infoActive");
+			nodeStyle("info-main-"+barName,{display:"block"});
+			nowInfoBar = barName;
+			if(window["infoFun_"+barName])window["infoFun_"+barName](nowInfoConfig);
+		}
+		
+		function infoFun_body(config){
+			var res = {returnMode:"fixed",returnConfig:{mode:'array',value:[{mode:'number',value:123456},{mode:'object',value:{name:{mode:'string',value:'soar'},age:{mode:'number',value:21},hobby:{mode:'array',value:[{mode:'string',value:'篮球'},{mode:'string',value:'足球'}]}}}]}};
+			var bodyData = '';
+			if(res.returnMode == "fixed"){
+				bodyData = infoFun_body_fixed (res.returnConfig);
+				console.log(bodyData)
+				
+			}
+			nodeStyle("info-main-body").innerHTML = bodyData;
+		}
+		function infoFun_body_fixed (obj, name){
+			var returnHtml = '<span class="info-body-data-'+obj.mode+'">'+(name!=null?'<span class="info-body-data-name">'+name+'</span>':'');
+			returnHtml += '<span class="info-body-data-type">&lt;'+obj.mode+'&gt;</span>';
+			
+			if(obj.mode=="number" || obj.mode=="string"){
+				returnHtml += obj.value;
+			}else if(obj.mode=="array"){
+				for(var i =0;i<obj.value.length;i++){
+					returnHtml += infoFun_body_fixed(obj.value[i]);
+				}
+			}else if(obj.mode=="object"){
+				for(var key in obj.value){
+					returnHtml += '<span class="info-body-data-objItem">'+infoFun_body_fixed(obj.value[key],key)+'</span>';
+				}
+			}
+			returnHtml += '</span>';
+			return returnHtml;
+		}
+		
+		nodeStyle("info-container-nav").onclick= function(e){
+			var target = e.target || e.srcElement;
+			if(target.nodeName.toLowerCase()!="span")return;
+			
+			var id = target.id.replace("info-contain-","");
+			changeInfoBar(id);
+		
 		}
