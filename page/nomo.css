@@ -549,31 +549,100 @@
 
 
 /* return body */
+#info-main-body > div {
+	padding:10px;
+	background:#e5f5e5;
+	border-radius:3px;
+	margin-bottom:20px;
+}
+.info-main-body-stitle{
+	background:#fff;
+	display:inline-block;
+	border-radius:3px;
+	color:#709;
+	font-size:12px;
+	padding:5px 10px;
+	cursor:pointer;
+}
+#info-main-body-return-mode {
+	cursor:pointer;
+	color:#709;
+	font-size:12px;
+}
+#info-main-body-return-mode-value {
+	display:inline-block;
+	cursor:pointer;
+	font-weight:bold;
+	padding:0 10px;
+}
+#info-main-body-edit-value{
+	margin-top:10px;
+}
 
 .info-body-data-array,.info-body-data-object,.info-body-data-string,.info-body-data-number{
-	background:rgba(239,239,239,.3);
-	border:1px solid #ccc;
+	border-left:1px dashed #999;
+	border-top:1px dashed #999;
+	position:relative;
 	display:block;
 	padding:2px;
 	padding-top:5px;
-	padding-bottom:5px;
 	padding-left:10px;
-	margin-top:2px;
+	margin-top:10px;
 	border-radius:2px;
+	font-size:13px;
+}
+
+.info-body-data-addItem{
+	position:absolute;
+	top:5px;
+	border-radius:3px;
+	font-size:12px;
+	right:115px;
+	padding:3px 5px;
+	background:#fff;
+	color:#709;
+	cursor:pointer;
+}
+.info-body-data-deleteItem{
+	position:absolute;
+	top:5px;
+	border-radius:3px;
+	font-size:12px;
+	right:60px;
+	padding:3px 5px;
+	background:#fff;
+	color:#709;
+	cursor:pointer;
+}
+.info-body-data-changeItem{
+	position:absolute;
+	top:5px;
+	border-radius:3px;
+	font-size:12px;
+	right:0px;
+	padding:3px 5px;
+	background:#fff;
+	color:#709;
+	cursor:pointer;
 }
 .info-body-data-array > span,.info-body-data-object >span {
 	display:block;
 }
 .info-body-data-type {
-	color:#69f;
+	color:#709;
 	cursor:pointer;
 }
 .info-body-data-name + .info-body-data-type {
 
 	display:inline-block;
 }
+.info-body-data-name {
+	color:#a33;
+}
 span.info-body-data-name,span.info-body-data-value {
 	display:inline-block;
 	padding-left:10px;
 	padding-right:10px;
 }
+#info-main-body-edit-value > span > .info-body-data-addItem{ right:60px;}
+#info-main-body-edit-value > span > .info-body-data-deleteItem{ display:none;}

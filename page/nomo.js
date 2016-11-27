@@ -357,19 +357,24 @@ var getXhr = function(){
 				console.log(bodyData)
 				
 			}
-			nodeStyle("info-main-body").innerHTML = bodyData;
+			nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
+			nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
 		}
 		function infoFun_body_fixed (obj, name){
 			var returnHtml = '<span class="info-body-data-'+obj.mode+'">'+(name!=null?'<span class="info-body-data-name" contentEditable="true">'+name+'</span>':'');
 			returnHtml += '<span class="info-body-data-type">&lt;'+obj.mode+'&gt;</span>';
+			returnHtml += '<div class="info-body-data-deleteItem">Delete</div>';
+			returnHtml += '<div class="info-body-data-changeItem">Change</div>';
 			
 			if(obj.mode=="number" || obj.mode=="string"){
 				returnHtml += '<span class="info-body-data-value" contentEditable="true">'+obj.value+'</span>';
 			}else if(obj.mode=="array"){
 				for(var i =0;i<obj.value.length;i++){
+					returnHtml += '<div class="info-body-data-addItem">Add Item</div>';
 					returnHtml += infoFun_body_fixed(obj.value[i]);
 				}
 			}else if(obj.mode=="object"){
+				returnHtml += '<div class="info-body-data-addItem">Add Item</div>';
 				for(var key in obj.value){
 					returnHtml += '<span class="info-body-data-objItem">'+infoFun_body_fixed(obj.value[key],key)+'</span>';
 				}
@@ -384,5 +389,11 @@ var getXhr = function(){
 			
 			var id = target.id.replace("info-contain-","");
 			changeInfoBar(id);
+		
+		}
+		
+		nodeStyle("info-main-body-edit-value").onclick= function(e){
+			var target = e.target || e.srcElement;
+			console.log(target)
 		
 		}
