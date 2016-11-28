@@ -646,3 +646,29 @@ span.info-body-data-name,span.info-body-data-value {
 }
 #info-main-body-edit-value > span > .info-body-data-addItem{ right:60px;}
 #info-main-body-edit-value > span > .info-body-data-deleteItem{ display:none;}
+#info-main-body-btn {
+	text-align:right;
+	padding-top:20px;
+}
+#info-main-body-btn > span {
+	display:inline-block;
+	padding:8px 16px;
+	border-radius:3px;
+	font-size:12px;
+	color:#fff;
+	margin-left:5px;
+	cursor:pointer;
+	transition:background .5s ease;
+}
+#info-main-body-btn-save {
+	background:#69f;
+}
+#info-main-body-btn-cancel {
+	background:#bbb;
+}
+#info-main-body-btn-save:hover{
+	background:#8bf;
+}
+#info-main-body-btn-cancel:hover {
+	background:#ccc;
+}
