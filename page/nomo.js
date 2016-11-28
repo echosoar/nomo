@@ -354,7 +354,7 @@ var getXhr = function(){
 			var bodyData = '';
 			if(res.returnMode == "fixed"){
 				bodyData = infoFun_body_fixed (res.returnConfig);
-				console.log(bodyData)
+				
 				
 			}
 			nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
@@ -369,8 +369,8 @@ var getXhr = function(){
 			if(obj.mode=="number" || obj.mode=="string"){
 				returnHtml += '<span class="info-body-data-value" contentEditable="true">'+obj.value+'</span>';
 			}else if(obj.mode=="array"){
+				returnHtml += '<div class="info-body-data-addItem">Add Item</div>';
 				for(var i =0;i<obj.value.length;i++){
-					returnHtml += '<div class="info-body-data-addItem">Add Item</div>';
 					returnHtml += infoFun_body_fixed(obj.value[i]);
 				}
 			}else if(obj.mode=="object"){
@@ -392,8 +392,34 @@ var getXhr = function(){
 		
 		}
 		
+		function getInfoModeFixedInit(type){
+			switch(type){
+				case 'array':
+					return '<span class="info-body-data-string"><span class="info-body-data-type">&lt;string&gt;</span><span class="info-body-data-deleteItem">Delete</span><span class="info-body-data-changeItem">Change</span><span class="info-body-data-value" contentEditable="true">Item Value</span></span>';
+					break;
+				case 'object':
+					return '<span class="info-body-data-objItem"><span class="info-body-data-string"><span class="info-body-data-name" contentEditable="true">Item Name</span><span class="info-body-data-type">&lt;string&gt;</span><span class="info-body-data-deleteItem">Delete</span><span class="info-body-data-changeItem">Change</span><span class="info-body-data-value" contentEditable="true">Item Value</span></span></span>';
+					break;
+				default:
+					return false;
+					break;
+			}
+		}
 		nodeStyle("info-main-body-edit-value").onclick= function(e){
 			var target = e.target || e.srcElement;
-			console.log(target)
-		
+			if(target.className == "info-body-data-addItem"){
+				var container =  target.parentNode;
+				var containerMode = container.className.split("-").pop();
+				var newHtml = getInfoModeFixedInit(containerMode);
+				if(!!newHtml){
+					container.innerHTML += getInfoModeFixedInit(containerMode);
+				}
+			}else if(target.className == "info-body-data-deleteItem"){
+				var container =  target.parentNode;
+				if(container.parentNode && container.parentNode.className=="info-body-data-objItem"){
+					container.parentNode.parentNode.removeChild(container.parentNode);
+				}else if(container.parentNode){
+					container.parentNode.removeChild(container);
+				}
+			}
 		}
