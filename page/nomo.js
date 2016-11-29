@@ -479,3 +479,80 @@ var getXhr = function(){
 				});
 			}
 		}
+		
+		function fixedDataEditToObj(node) {
+			var mode = node.className.split("-").pop();
+			var child = [].slice.call(node.children);
+			if(mode == "array"){
+				var res = {
+					mode: 'array',
+					value: []
+				}
+				for(var i=0;i<child.length;i++){
+					if(child[i].className == "info-body-data-type" || child[i].className == "info-body-data-addItem"|| child[i].className == "info-body-data-deleteItem"|| child[i].className == "info-body-data-changeItem"|| child[i].className == "info-body-data-name"){}else{
+						res.value.push(fixedDataEditToObj(child[i]));
+					}
+				}
+				return res;
+			}else if(mode == "object"){
+				var valueObject = {};
+				for(var j=0;j<child.length;j++){
+					if(child[j].className == "info-body-data-objItem"){
+						var objItem = child[j].children[0];
+						var objItemChild = [].slice.call(objItem.children);
+						for(var i=0;i<objItemChild.length;i++){
+							if(objItemChild[i].className == "info-body-data-name"){
+								valueObject[objItemChild[i].innerHTML] = fixedDataEditToObj(objItem);
+							}
+						}
+					}
+				}
+				return {
+					mode:'object',
+					value:valueObject
+				}
+			}else if(mode == "string"){
+				return {
+					mode:'string',
+					value:child.map(function(v){
+						if(v.className == "info-body-data-value"){
+							return v.innerHTML;
+						}
+					}).join("")
+				}
+			}else if(mode == "number"){
+				return {
+					mode:'string',
+					value:child.map(function(v){
+						if(v.className == "info-body-data-value"){
+							return v.innerHTML;
+						}
+					}).join("") - 0
+				}
+			}else if(mode == "boolean"){
+				return {
+					mode:'string',
+					value:!!child.map(function(v){
+						if(v.className == "info-body-data-value"){
+							return v.innerHTML;
+						}
+					}).join("")
+				}
+			}
+		}
+		
+		nodeStyle("info-main-body-btn-save").onclick = function(){
+			nodeStyle("info-main-body-edit-load",{display:"block"});
+			var valueNode = nodeStyle("info-main-body-edit-value");
+			var valueObject = fixedDataEditToObj(valueNode.children[0]);
+			var xhr = getXhr();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						nodeStyle("info-main-body-edit-load",{display:"none"});
+					}
+				}
+			}
+			xhr.open("POST","/post/setApiBodyData/");
+			xhr.send("host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api+"&bodyData="+JSON.stringify(valueObject));
+		}
