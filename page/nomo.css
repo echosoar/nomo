@@ -13,6 +13,48 @@
 		font-family:微软雅黑,黑体,Helvetica,华文黑体;
 	}
 	
+	/* Model Float */
+	#model-float {
+		position:fixed;
+		width:100%;
+		height:100%;
+		z-index:999;
+		display:none;
+		background:rgba(0, 0, 0, 0);
+		transition:background .5s ease;
+	}
+	#model-float.fadeIn{
+		background:rgba(0, 0, 0, .8);
+	}
+	#model-container {
+		display:inline-block;
+		position:fixed;
+		z-index:1000;
+		top:0%;
+		left:50%;
+		transform: translate(-50%, -100%);
+		background: #696;
+		border-radius: 3px;
+		transition: top .5s ease, transform .5s ease;
+	}
+	#model-title {
+		position: relative;
+		min-width:360px;
+		width:100%;
+		height:36px;
+		line-height:36px;
+		padding: 0 10px;
+		box-sizing:border-box;
+		background: #7a7;
+		color:#fff;
+		border-radius:3px 3px 0 0;
+		font-size:13px;
+		text-shadow:0 0 1px #999;
+	}
+	#model-contain {
+		padding:10px;
+	}
+	
 	#welcome {
 		position:fixed;
 		width:100%;
@@ -550,6 +592,7 @@
 
 /* return body */
 #info-main-body > div {
+	position:relative;
 	padding:10px;
 	background:#e5f5e5;
 	border-radius:3px;
@@ -646,6 +689,34 @@ span.info-body-data-name,span.info-body-data-value {
 }
 #info-main-body-edit-value > span > .info-body-data-addItem{ right:60px;}
 #info-main-body-edit-value > span > .info-body-data-deleteItem{ display:none;}
+
+#info-main-body-edit-load {
+	display:none;
+	z-index:10;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgba(60, 122, 60, .8);
+	border-radius:3px;
+}
+.info-main-body-edit-load-in {
+	display:block;
+	position:absolute;
+	top:50%;
+	left:50%;
+	width:40px;
+	height:40px;
+	border:3px solid transparent;
+	border-radius:50%;
+	border-top:3px solid #ff0;
+	border-bottom:3px solid #ff0;
+	margin-left:-20px;
+	margin-top:-20px;
+	animation: loading .5s linear infinite;
+}
+
 #info-main-body-btn {
 	text-align:right;
 	padding-top:20px;
@@ -671,4 +742,21 @@ span.info-body-data-name,span.info-body-data-value {
 }
 #info-main-body-btn-cancel:hover {
 	background:#ccc;
+}
+
+.change-data-mode-btn {
+	display:block;
+	text-align:center;
+	margin-top:10px;
+	height:40px;
+	line-height:40px;
+	color:#fff;
+	font-size:12px;
+	cursor:pointer;
+	background:#9c9;
+	border-radius: 3px;
+	transition: background .3s ease;
+}
+.change-data-mode-btn:hover {
+	background: #8b8;
 }
