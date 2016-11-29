@@ -364,7 +364,7 @@ var getXhr = function(){
 			returnHtml += '<div class="info-body-data-deleteItem">Delete</div>';
 			returnHtml += '<div class="info-body-data-changeItem">Change</div>';
 			
-			if(obj.mode=="number" || obj.mode=="string"){
+			if(obj.mode=="number" || obj.mode=="string" || obj.mode=="boolean"){
 				returnHtml += '<span class="info-body-data-value" contentEditable="true">'+obj.value+'</span>';
 			}else if(obj.mode=="array"){
 				returnHtml += '<div class="info-body-data-addItem">Add Item</div>';
@@ -522,7 +522,7 @@ var getXhr = function(){
 				}
 			}else if(mode == "number"){
 				return {
-					mode:'string',
+					mode:'number',
 					value:child.map(function(v){
 						if(v.className == "info-body-data-value"){
 							return v.innerHTML;
@@ -531,7 +531,7 @@ var getXhr = function(){
 				}
 			}else if(mode == "boolean"){
 				return {
-					mode:'string',
+					mode:'boolean',
 					value:!!child.map(function(v){
 						if(v.className == "info-body-data-value"){
 							return v.innerHTML;

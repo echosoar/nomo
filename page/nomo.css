@@ -622,7 +622,7 @@
 	margin-top:10px;
 }
 
-.info-body-data-array,.info-body-data-object,.info-body-data-string,.info-body-data-number{
+.info-body-data-array,.info-body-data-object,.info-body-data-string,.info-body-data-boolean,.info-body-data-number{
 	border-left:1px dashed #999;
 	border-top:1px dashed #999;
 	position:relative;
