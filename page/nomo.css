@@ -681,11 +681,15 @@
 }
 .info-body-data-name {
 	color:#a33;
+	margin-right:2px;
 }
 span.info-body-data-name,span.info-body-data-value {
 	display:inline-block;
 	padding-left:10px;
 	padding-right:10px;
+}
+span.info-body-data-value{
+	margin-left:2px;
 }
 #info-main-body-edit-value > span > .info-body-data-addItem{ right:60px;}
 #info-main-body-edit-value > span > .info-body-data-deleteItem{ display:none;}

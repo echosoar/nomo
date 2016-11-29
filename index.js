@@ -10,6 +10,7 @@ const Koa = require("koa");
 const Router = require("koa-router");
 const Page = require("./page/");
 const Api = require("./api/");
+const Post = require("./api/post.js");
 const Proxy = require("./proxy");
 
 var router = new Router()
@@ -17,6 +18,7 @@ var app = Koa();
 
 router.get("/api/*", Api);
 router.get("/nomo/*",Page);
+router.post("/post/*",Post);
 
 
 
