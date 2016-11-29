@@ -354,14 +354,12 @@ var getXhr = function(){
 			var bodyData = '';
 			if(res.returnMode == "fixed"){
 				bodyData = infoFun_body_fixed (res.returnConfig);
-				
-				
 			}
 			nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
 			nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
 		}
-		function infoFun_body_fixed (obj, name){
-			var returnHtml = '<span class="info-body-data-'+obj.mode+'">'+(name!=null?'<span class="info-body-data-name" contentEditable="true">'+name+'</span>':'');
+		function infoFun_body_fixed (obj, name, isNewMode){
+			var returnHtml = (isNewMode?'':'<span class="info-body-data-'+obj.mode+'">')+(name!=null?'<span class="info-body-data-name" contentEditable="true">'+name+'</span>':'');
 			returnHtml += '<span class="info-body-data-type">&lt;'+obj.mode+'&gt;</span>';
 			returnHtml += '<div class="info-body-data-deleteItem">Delete</div>';
 			returnHtml += '<div class="info-body-data-changeItem">Change</div>';
@@ -379,7 +377,7 @@ var getXhr = function(){
 					returnHtml += '<span class="info-body-data-objItem">'+infoFun_body_fixed(obj.value[key],key)+'</span>';
 				}
 			}
-			returnHtml += '</span>';
+			returnHtml += (isNewMode?'':'</span>');
 			return returnHtml;
 		}
 		
@@ -405,6 +403,29 @@ var getXhr = function(){
 					break;
 			}
 		}
+		
+		function modelFadeIn(){
+			var node = nodeStyle("model-float",{display:"block"});
+			setTimeout(function(){node.setAttribute("class","fadeIn");}, 0);
+		}
+		function modelFadeOut(){
+			nodeStyle("model-float").setAttribute("class","");
+			setTimeout(function(){nodeStyle("model-float",{display:"none"});}, 500);
+		}
+		function modelIn(title, content, clickCallback){
+			modelFadeIn();
+			nodeStyle("model-title").innerHTML = title;
+			nodeStyle("model-contain").innerHTML = content();
+			nodeStyle("model-float").onclick = function(){modelOut(modelFadeOut)};
+			nodeStyle("model-container",{top:"50%",transform:"translate(-50%,-50%)"}).onclick = function(e){
+				clickCallback(e);
+				modelOut(modelFadeOut);
+			}
+		}
+		function modelOut(callback){
+			nodeStyle("model-container",{top:"0%",transform:"translate(-50%,-100%)"});
+			setTimeout(callback, 100);
+		}
 		nodeStyle("info-main-body-edit-value").onclick= function(e){
 			var target = e.target || e.srcElement;
 			if(target.className == "info-body-data-addItem"){
@@ -421,5 +442,9 @@ var getXhr = function(){
 				}else if(container.parentNode){
 					container.parentNode.removeChild(container);
 				}
+			}else if(target.className == "info-body-data-changeItem"){
+				var container = target.parentNode;
+				
+				
 			}
 		}
