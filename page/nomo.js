@@ -444,7 +444,38 @@ var getXhr = function(){
 				}
 			}else if(target.className == "info-body-data-changeItem"){
 				var container = target.parentNode;
-				
-				
+				var nowMode = container.className.split("-").pop();
+				var isObject = false;
+				if(container.parentNode && container.parentNode.className == "info-body-data-objItem"){
+					isObject = true;
+				}
+				modelIn("Change Data Mode", function(){
+					var dataMode = ["string", "number", "boolean","array","object"];
+					return dataMode.map(function(v){
+						return '<span class="change-data-mode-btn" id="data-mode-value-'+v+'">'+v+'</span>';
+					}).join("");
+				}, function(e){
+					e = e ||window.event;
+					var targetNode = e.target || e.srcElement;
+					if(targetNode.id.indexOf("data-mode-value")!=-1){
+						var targetMode = targetNode.innerHTML;
+						var resHtml = "";
+						var newValue = "Item Value";
+						if(targetMode == "number") newValue = 123;
+						if(targetMode == "boolean") newValue = true;
+						if(targetMode == "array") newValue = [];
+						if(targetMode == "object") newValue = {};
+						if(isObject){
+							resHtml = infoFun_body_fixed({mode:targetMode, value:newValue},"Item Name",true);
+						}else{
+							resHtml = infoFun_body_fixed({mode:targetMode, value:newValue},null,true);
+						}
+						var newNode = document.createElement("span");
+						newNode.setAttribute("class","info-body-data-"+targetMode);
+						newNode.innerHTML = resHtml;
+						container.parentNode.insertBefore(newNode, container);
+						container.parentNode.removeChild(container);
+					}
+				});
 			}
 		}
