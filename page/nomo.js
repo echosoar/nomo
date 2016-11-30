@@ -257,6 +257,7 @@ var getXhr = function(){
 			nodeStyle("info",{display:"none"});
 			getConfig(nodeStyle("title-info-api").className);
 			nodeStyle("api",{display:"block"});
+			infoClose();
 		}
 		
 		nodeStyle("api-info-regetip").onclick = function(){
@@ -350,13 +351,22 @@ var getXhr = function(){
 		}
 		
 		function infoFun_body(config){
-			var res = {returnMode:"fixed",returnConfig:{mode:'array',value:[{mode:'number',value:123456},{mode:'object',value:{name:{mode:'string',value:'soar'},age:{mode:'number',value:21},hobby:{mode:'array',value:[{mode:'string',value:'篮球'},{mode:'string',value:'足球'}]}}}]}};
-			var bodyData = '';
-			if(res.returnMode == "fixed"){
-				bodyData = infoFun_body_fixed (res.returnConfig);
+			var xhr = getXhr();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var res = JSON.parse(xhr.responseText);
+						var bodyData = '';
+						if(res.returnMode == "fixed"){
+							bodyData = infoFun_body_fixed (res.returnConfig);
+						}
+						nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
+						nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
+					}
+				}
 			}
-			nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
-			nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
+			xhr.open("GET","/api/getApiInfoBody/?host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api);
+			xhr.send(null);
 		}
 		function infoFun_body_fixed (obj, name, isNewMode){
 			var returnHtml = (isNewMode?'':'<span class="info-body-data-'+obj.mode+'">')+(name!=null?'<span class="info-body-data-name" contentEditable="true">'+name+'</span>':'');
@@ -545,14 +555,18 @@ var getXhr = function(){
 			nodeStyle("info-main-body-edit-load",{display:"block"});
 			var valueNode = nodeStyle("info-main-body-edit-value");
 			var valueObject = fixedDataEditToObj(valueNode.children[0]);
+			var returnMode = nodeStyle("info-main-body-return-mode-value").innerHTML.toLowerCase();
 			var xhr = getXhr();
 			xhr.onreadystatechange = function(){
 				if(xhr.readyState==4){
 					if(xhr.status == 200){
-						nodeStyle("info-main-body-edit-load",{display:"none"});
+						setTimeout(function(){
+							nodeStyle("info-main-body-edit-load",{display:"none"});
+							infoFun_body(nowInfoConfig);
+						}, 500);
 					}
 				}
 			}
 			xhr.open("POST","/post/setApiBodyData/");
-			xhr.send("host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api+"&bodyData="+JSON.stringify(valueObject));
+			xhr.send("host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api+"&returnMode="+returnMode+"&bodyData="+JSON.stringify(valueObject));
 		}
