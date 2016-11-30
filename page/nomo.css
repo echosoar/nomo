@@ -764,3 +764,11 @@ span.info-body-data-value{
 .change-data-mode-btn:hover {
 	background: #8b8;
 }
+.info-body-data-log-item{
+	position:relative;
+	height:40px;
+	margin-top:10px;
+	border-radius:3px;
+	background:#bdb;
+	padding-left:140px;
+}

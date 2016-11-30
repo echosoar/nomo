@@ -12,6 +12,7 @@ const setHostIp = require("./setHostIp.js");
 const addNewApi = require("./addNewApi.js");
 const openOrCloseHost = require("./openOrCloseHost.js");
 const deleteHostApi = require("./deleteHostApi.js");
+const getApiInfoBody = require("./getApiInfoBody.js");
 
 (function(){
 	let dataDir = path.resolve(__dirname, "../data/");
@@ -52,6 +53,9 @@ let index = function * (next){
 			break;
 		case 'deleteHostApi':
 			deleteHostApi(that);
+			break;
+		case 'getApiInfoBody':
+			getApiInfoBody(that);
 			break;
 	}
 	yield next;

@@ -1,7 +1,29 @@
 var isHttps = false;
 var nowInfoBar = '';
 var nowInfoConfig = {host:'',api:'',apiName:'',isHttps:false};
-		
+
+Date.prototype.format = function(format) {
+       var date = {
+              "M+": this.getMonth() + 1,
+              "d+": this.getDate(),
+              "h+": this.getHours(),
+              "m+": this.getMinutes(),
+              "s+": this.getSeconds(),
+              "q+": Math.floor((this.getMonth() + 3) / 3),
+              "S+": this.getMilliseconds()
+       };
+       if (/(y+)/i.test(format)) {
+              format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+       }
+       for (var k in date) {
+              if (new RegExp("(" + k + ")").test(format)) {
+                     format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                            ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+              }
+       }
+       return format;
+}
+	
 var getXhr = function(){
 	if(window.XMLHttpRequest){
 		var xhr=new XMLHttpRequest();
@@ -362,6 +384,7 @@ var getXhr = function(){
 						}
 						nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
 						nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
+						nodeStyle("info-main-body-log-value").innerHTML = infoFun_body_log(res.changeLog);
 					}
 				}
 			}
@@ -389,6 +412,13 @@ var getXhr = function(){
 			}
 			returnHtml += (isNewMode?'':'</span>');
 			return returnHtml;
+		}
+		
+		function infoFun_body_log(log){
+			if(log.length==0)return "";
+			return log.map(function(v){
+				return '<div class="info-body-data-log-item" data-json="'+JSON.stringify({returnMode:v.returnMode,returnConfig:v.returnConfig})+'"><span class="info-body-data-log-item-time">'+(new Date(v.changeTime)).format('yyyy-MM-dd h:m:s')+'</span><span class="info-body-data-log-item-type">'+v.returnMode.toUpperCase()+'</span><span class="info-body-data-log-item-type">Recovery This Structur</span></div>';
+			}).join("");
 		}
 		
 		nodeStyle("info-container-nav").onclick= function(e){
@@ -569,4 +599,12 @@ var getXhr = function(){
 			}
 			xhr.open("POST","/post/setApiBodyData/");
 			xhr.send("host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api+"&returnMode="+returnMode+"&bodyData="+JSON.stringify(valueObject));
+		}
+		
+		nodeStyle("info-main-body-btn-cancel").onclick = function(){
+			nodeStyle("info-main-body-edit-load",{display:"block"});
+			setTimeout(function(){
+				nodeStyle("info-main-body-edit-load",{display:"none"});
+				infoFun_body(nowInfoConfig);
+			}, 500);
 		}

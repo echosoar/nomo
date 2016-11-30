@@ -2,6 +2,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const base = require("./base.js");
 
 let main = function(obj){
 	var $_GET = /\?host=(.*?)&api=(.*?)$/.exec(obj.url);
@@ -10,7 +11,7 @@ let main = function(obj){
 	
 	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 	var configFile = dirname+"/config.json";
-	var apiFile = dirname+"/"+api+".json";
+	var apiFile = dirname+"/"+api+"/";
 	
 	var config = JSON.parse(fs.readFileSync(configFile));
 	
@@ -18,7 +19,7 @@ let main = function(obj){
 	
 	fs.writeFileSync(configFile,JSON.stringify(config));
 	
-	fs.unlinkSync(apiFile);
+	base.deleteFolder(apiFile);
 	
 	obj.body = JSON.stringify({res:1});
 }

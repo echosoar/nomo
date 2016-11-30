@@ -2,6 +2,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const base = require("./base.js");
 
 let addNewApi = obj => {
 	var $_GET = /\?host=(.*?)&https=(.*?)&api=(.*?)$/.exec(obj.url);
@@ -11,7 +12,8 @@ let addNewApi = obj => {
 	var apiName = (new Buffer((isHttps?'https#nomo#':'http#nomo#') + api)).toString('base64');
 	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(nowHost)).toString('base64'));
 	var configFile = dirname+"/config.json";
-	var apiFile = dirname+"/"+apiName+".json";
+	base.mkFolder(dirname+"/"+apiName);
+	var apiFile = dirname+"/"+apiName+"/config.json";
 	var config = JSON.parse(fs.readFileSync(configFile));
 	var addRes = false;
 	if(!config.api[apiName]){
@@ -25,7 +27,8 @@ let addNewApi = obj => {
 			returnConfig: {
 				mode: 'string',
 				value: 'Thanks use nomo!'
-			}
+			},
+			changeLog:[]
 		}));
 		fs.writeFileSync(configFile,JSON.stringify(config));
 	}
