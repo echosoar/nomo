@@ -417,7 +417,7 @@ var getXhr = function(){
 		function infoFun_body_log(log){
 			if(log.length==0)return "";
 			return log.map(function(v){
-				return '<div class="info-body-data-log-item" data-json="'+JSON.stringify({returnMode:v.returnMode,returnConfig:v.returnConfig})+'"><span class="info-body-data-log-item-time">'+(new Date(v.changeTime)).format('yyyy-MM-dd h:m:s')+'</span><span class="info-body-data-log-item-type">'+v.returnMode.toUpperCase()+'</span><span class="info-body-data-log-item-type">Recovery This Structur</span></div>';
+				return '<div class="info-body-data-log-item" data-json=\''+JSON.stringify({returnMode:v.returnMode,returnConfig:v.returnConfig})+'\'><span class="info-body-data-log-item-time">'+(new Date(v.changeTime)).format('yyyy-MM-dd hh:mm:ss')+'</span><span class="info-body-data-log-item-type">'+v.returnMode.toUpperCase()+"&nbsp;&nbsp;&nbsp;&nbsp;"+JSON.stringify(v.returnConfig)+'</span><span class="info-body-data-log-item-recovery">Recovery This Structur</span></div>';
 			}).join("");
 		}
 		
@@ -606,5 +606,28 @@ var getXhr = function(){
 			setTimeout(function(){
 				nodeStyle("info-main-body-edit-load",{display:"none"});
 				infoFun_body(nowInfoConfig);
-			}, 500);
+			}, 300);
+		}
+		nodeStyle("info-main-body-log").onclick = function(e){
+			e = e ||window.event;
+			var targetNode = e.target || e.srcElement;
+			if(targetNode.className == "info-body-data-log-item-recovery"){
+				var data = JSON.parse(targetNode.parentNode.getAttribute("data-json"));
+				nodeStyle("info-main-body-edit-load",{display:"block"});
+				var valueNode = nodeStyle("info-main-body-edit-value");
+				var valueObject = data.returnConfig;
+				var xhr = getXhr();
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState==4){
+						if(xhr.status == 200){
+							setTimeout(function(){
+								nodeStyle("info-main-body-edit-load",{display:"none"});
+								infoFun_body(nowInfoConfig);
+							}, 500);
+						}
+					}
+				}
+				xhr.open("POST","/post/setApiBodyData/");
+				xhr.send("host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api+"&returnMode="+data.returnMode+"&bodyData="+JSON.stringify(valueObject));
+			}
 		}

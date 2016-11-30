@@ -24,7 +24,7 @@ let setApiBodyData = (obj, data) => {
 	
 	config.returnMode = returnMode;
 	config.returnConfig = JSON.parse(bodyData);
-	if(config.changeLog.length>5)config.changeLog.pop();
+	if(config.changeLog.length>=5)config.changeLog.pop();
 	config.changeLog.unshift(oldData);
 	fs.writeFileSync(apiFile,JSON.stringify(config));
 	obj.body = "success!";

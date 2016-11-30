@@ -736,13 +736,13 @@ span.info-body-data-value{
 	transition:background .5s ease;
 }
 #info-main-body-btn-save {
-	background:#69f;
+	background:#9c9;
 }
 #info-main-body-btn-cancel {
 	background:#bbb;
 }
 #info-main-body-btn-save:hover{
-	background:#8bf;
+	background:#ada;
 }
 #info-main-body-btn-cancel:hover {
 	background:#ccc;
@@ -770,5 +770,39 @@ span.info-body-data-value{
 	margin-top:10px;
 	border-radius:3px;
 	background:#bdb;
-	padding-left:140px;
+	padding-left:180px;
+	padding-right:200px;
+	white-space:nowrap;
+	font-size:12px;
+	color:#709;
+}
+.info-body-data-log-item-time{
+	position:absolute;
+	left:0;
+	top:0;
+	height:40px;
+	line-height:40px;
+	width:180px;
+	text-align:center;
+}
+.info-body-data-log-item-type{
+	display:inline-block;
+	line-height:40px;
+	font-weight:bold;
+	white-space:nowrap;
+	height:40px;
+	width:100%;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.info-body-data-log-item-recovery{
+	position:absolute;
+	top:8px;
+	right:8px;
+	height:24px;
+	line-height:24px;
+	background:#fff;
+	padding:0 10px;
+	border-radius:3px;
+	cursor:pointer;
 }
