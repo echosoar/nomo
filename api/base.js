@@ -29,7 +29,7 @@ let deleteFolderRecursive = function(path) {
 };
 
 
-let deleteHost = host => {
+let deleteHost = (host, notDeleteFolder) => {
 	host = host.toLowerCase();
 	let hostFileOpen = false;
 	let hostFile;
@@ -57,7 +57,7 @@ let deleteHost = host => {
 				let temHost = lineArr[i].split(/\s/);
 				if(temHost[1]==host || (temHost[0]=="#" && temHost[2]==host)){
 					let hostDirName = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
-					deleteFolderRecursive(hostDirName);
+					if(!notDeleteFolder) deleteFolderRecursive(hostDirName);
 					continue;
 				}
 			}

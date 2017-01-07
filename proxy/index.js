@@ -21,7 +21,7 @@ let Proxy = (req,res) => {
 		
 		var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 		var configFile = dirname + "/config.json";
-		var apiFile = dirname+"/"+(new Buffer('http#nomo#'+api)).toString('base64')+".json";
+		var apiFile = dirname+"/"+(new Buffer('http#nomo#'+api)).toString('base64')+"/config.json";
 		
 		
 		var callback = (error, response, body) => { 
@@ -34,7 +34,8 @@ let Proxy = (req,res) => {
 					var options = {
 						url: response.request.href,
 						headers: response.request.headers,
-						encoding: 'binary'
+						encoding: 'binary',
+						rejectUnauthorized: false
 					};
 					request(options,(error,responseBinary)=>{
 						res.writeHead(responseBinary.statusCode, responseBinary.headers);
@@ -63,7 +64,8 @@ let Proxy = (req,res) => {
 				url = 'http://'+config.ip+url;
 				var options = {
 					url: url,
-					headers: {"Host":host,"Cookie":req.headers.cookie}
+					headers: {"Host":host,"Cookie":req.headers.cookie},
+					rejectUnauthorized: false
 				}; 
 				
 				request(options,callback);

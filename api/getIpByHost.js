@@ -11,7 +11,7 @@ let main = function(obj){
 	}
 	nowHost = nowHost[1].replace(/(^\s*)|(\s*$)/g,"");
 	nowHost = nowHost.toLowerCase();
-	base.deleteHost(nowHost);
+	base.deleteHost(nowHost, true);
 	var ip = getIp(nowHost);
 	base.addHost(nowHost);
 	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(nowHost)).toString('base64'));
