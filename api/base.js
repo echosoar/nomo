@@ -169,10 +169,31 @@ let hostStatus = host => {
 	return nowStatus;
 }
 
+let data_format_fixed = data => {
+	if(data.mode == 'array'){
+		return data.value.map(v => {
+			return data_format_fixed(v);
+		})
+	}else if(data.mode == 'object') {
+		let returnRes = {};
+		for(let item in data.value) {
+			returnRes[item] = data_format_fixed(data.value[item]);
+		}
+		return returnRes;
+	}else if(data.mode == 'string') {
+		return data.value + '';
+	}else if(data.mode == 'number') {
+		return (data.value + '').replace(/[^\d]/g,'') - 0;
+	}else if(data.mode == 'boolean'){
+		return !!data.value;
+	}
+}
+
 module.exports = {
 	deleteHost : deleteHost,
 	deleteFolder : deleteFolderRecursive,
 	mkFolder : mkFolder,
 	addHost : addHost,
-	hostStatus: hostStatus
+	hostStatus: hostStatus,
+	data_format_fixed: data_format_fixed
 }

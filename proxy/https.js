@@ -1,5 +1,6 @@
 "use strict";
 var fs = require("fs");
+var base = require("../api/base.js");
 var path = require("path");
 var https = require('https');
 var request = require('request'); 
@@ -31,9 +32,14 @@ let Proxys = () => {
 		if(fs.existsSync(configFile)){
 			var config = JSON.parse(fs.readFileSync(configFile).toString());
 			if(fs.existsSync(apiFile)){
+				console.log('[ -- Nomo HTTPS -- ]:','https://'+host+url);
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
+				var writeContent = "Nomo Success!";
+				if(apiConfig.returnMode == "fixed"){
+					writeContent = JSON.stringify(base.data_format_fixed(apiConfig.returnConfig));
+				}
 				res.writeHead("200",{"Content-Type":"text/html"});
-				res.write("Nomo Success!");
+				res.write(writeContent);
 				res.end();
 				
 			}else{

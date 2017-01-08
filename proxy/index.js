@@ -1,6 +1,7 @@
 "use strict";
 
 var fs = require("fs");
+var base = require("../api/base.js");
 var path = require("path");
 var http = require('http');
 var request = require('request'); 
@@ -55,6 +56,7 @@ let Proxy = (req,res) => {
 			
 			if(fs.existsSync(apiFile)){
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
+				console.log(apiConfig)
 				res.writeHead("200",{"Content-Type":"text/html"});
 				res.write("Nomo Https Success!");
 				res.end();
