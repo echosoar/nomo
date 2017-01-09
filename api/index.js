@@ -13,6 +13,7 @@ const addNewApi = require("./addNewApi.js");
 const openOrCloseHost = require("./openOrCloseHost.js");
 const deleteHostApi = require("./deleteHostApi.js");
 const getApiInfoBody = require("./getApiInfoBody.js");
+const getDataPreview = require("./getDataPreview.js");
 
 (function(){
 	let dataDir = path.resolve(__dirname, "../data/");
@@ -56,6 +57,9 @@ let index = function * (next){
 			break;
 		case 'getApiInfoBody':
 			getApiInfoBody(that);
+			break;
+		case 'getDataPreview':
+			getDataPreview(that);
 			break;
 	}
 	yield next;

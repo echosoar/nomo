@@ -55,10 +55,14 @@ let Proxy = (req,res) => {
 			var config = JSON.parse(fs.readFileSync(configFile).toString());
 			
 			if(fs.existsSync(apiFile)){
+				console.log('[ -- Nomo HTTP -- ]:','http://'+host+url);
 				var apiConfig = JSON.parse(fs.readFileSync(apiFile).toString());
-				console.log(apiConfig)
+				var writeContent = "Nomo Success!";
+				if(apiConfig.returnMode == "fixed"){
+					writeContent = JSON.stringify(base.data_format_fixed(apiConfig.returnConfig));
+				}
 				res.writeHead("200",{"Content-Type":"text/html"});
-				res.write("Nomo Https Success!");
+				res.write(writeContent);
 				res.end();
 				
 			}else{
