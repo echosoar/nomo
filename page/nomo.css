@@ -764,6 +764,13 @@ span.info-body-data-value{
 .change-data-mode-btn:hover {
 	background: #8b8;
 }
+
+#info-main-body-pre-view-value {
+	font-size:12px;
+	color:#333;
+	padding: 10px 0;
+}
+
 .info-body-data-log-item{
 	position:relative;
 	height:40px;

@@ -3,7 +3,7 @@
 const path = require("path");
 const fs = require("fs");
 const qs = require("querystring");
-var base = require("../base.js");
+var base = require("./base.js");
 
 let getDataPreview = obj => {
 	let data = qs.parse(obj.url.replace(/^(.*?)\?/,""));
@@ -14,7 +14,7 @@ let getDataPreview = obj => {
 	var dirname = path.resolve(__dirname, "../data/"+(new Buffer(host)).toString('base64'));
 	var apiFile = dirname+"/"+api+"/config.json";
 	
-	var consif = JSON.parse(fs.readFileSync(apiFile));
+	var apiConfig = JSON.parse(fs.readFileSync(apiFile));
 	
 	var writeContent = "Nomo Success!";
 	if(apiConfig.returnMode == "fixed"){

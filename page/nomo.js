@@ -382,6 +382,7 @@ var getXhr = function(){
 						if(res.returnMode == "fixed"){
 							bodyData = infoFun_body_fixed (res.returnConfig);
 						}
+						infoFun_body_preview(nowInfoConfig);
 						nodeStyle("info-main-body-return-mode-value").innerHTML = res.returnMode.toUpperCase();
 						nodeStyle("info-main-body-edit-value").innerHTML = bodyData;
 						nodeStyle("info-main-body-log-value").innerHTML = infoFun_body_log(res.changeLog);
@@ -412,6 +413,20 @@ var getXhr = function(){
 			}
 			returnHtml += (isNewMode?'':'</span>');
 			return returnHtml;
+		}
+		
+		function infoFun_body_preview(config){
+			var xhr = getXhr();
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4){
+					if(xhr.status == 200){
+						var res = xhr.responseText;
+						nodeStyle("info-main-body-pre-view-value").innerHTML = res;
+					}
+				}
+			}
+			xhr.open("GET","/api/getDataPreview/?host="+nowInfoConfig.host+"&https="+nowInfoConfig.isHttps+"&api="+nowInfoConfig.api);
+			xhr.send(null);
 		}
 		
 		function infoFun_body_log(log){
@@ -593,6 +608,7 @@ var getXhr = function(){
 						setTimeout(function(){
 							nodeStyle("info-main-body-edit-load",{display:"none"});
 							infoFun_body(nowInfoConfig);
+							
 						}, 500);
 					}
 				}
@@ -606,6 +622,7 @@ var getXhr = function(){
 			setTimeout(function(){
 				nodeStyle("info-main-body-edit-load",{display:"none"});
 				infoFun_body(nowInfoConfig);
+				
 			}, 300);
 		}
 		nodeStyle("info-main-body-log").onclick = function(e){
@@ -623,6 +640,7 @@ var getXhr = function(){
 							setTimeout(function(){
 								nodeStyle("info-main-body-edit-load",{display:"none"});
 								infoFun_body(nowInfoConfig);
+								
 							}, 500);
 						}
 					}
