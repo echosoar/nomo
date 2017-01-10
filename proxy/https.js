@@ -6,8 +6,8 @@ var https = require('https');
 var request = require('request'); 
 var isBinary = require('./isBinary.js');
 
-let Proxys = () => {
-		
+let Proxys = (port) => {
+	port = port || 443;
 	console.log("\n==================\n Nomo proxy https request need setting chrome HSTS\n Please open page ‘chrome://net-internals/#hsts’ at chrome\n And delete domain that you bind at nomo! \n==================\n");
 	
 	let option = {
@@ -84,7 +84,7 @@ let Proxys = () => {
 			res.write("Nomo config error!");
 			res.end();
 		}
-	}).listen(443);
+	}).listen(port);
 }
 module.exports = Proxys;
 

@@ -12,6 +12,9 @@ const Page = require("./page/");
 const Api = require("./api/");
 const Post = require("./api/post.js");
 const Proxy = require("./proxy");
+var ProxyHttps = require("./proxy/https.js");
+
+
 
 var router = new Router()
 var app = Koa();
@@ -24,12 +27,18 @@ router.post("/post/*",Post);
 
 app.use(router.middleware());
 
-let nomo = (port) => {
-	port = port || 1314;
+let nomo = (port, option) => {
+	if(!port || typeof port == 'number') {
+		port = port || 1314;
+	}
+	option = option || {}
+	option.http = option.http || 80;
+	option.https = option.https || 443;
 	
 	var server = http.createServer(function(req,res){
 		Proxy(req,res);
-	}).listen(80);
+	}).listen(option.http);
+	ProxyHttps(option.https);
 	
 
 	server.on('listening', function () {
