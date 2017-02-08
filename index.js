@@ -57,8 +57,17 @@ let nomo = (port, option) => {
 	});
 }
 
-let nomoMid = (req, res) => {
-	console.log("nomo middleware")
+let nomoMid = port => {
+	port = port || 1314;
+	app.listen(port);
+	Open("http://127.0.0.1:"+port+"/nomo/");
+	return (req, res) => {
+		if((req.isSecure && req.isSecure()) || (req.protocol && req.protocol.toLowerCase()=='https')){
+			ProxyHttps(0, true);
+		}else{
+			Proxy(req,res, true);
+		}
+	}
 }
 
 module.exports = {

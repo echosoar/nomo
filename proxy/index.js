@@ -7,7 +7,7 @@ var http = require('http');
 var request = require('request'); 
 var isBinary = require('./isBinary.js');
 
-let Proxy = (req,res) => {
+let Proxy = (req, res, isMiddleWare) => {
 
 		let host = req.headers.host.toLowerCase();
 		
@@ -63,6 +63,7 @@ let Proxy = (req,res) => {
 				res.end();
 				
 			}else{
+				if(isMiddleWare) return; // 如果是中间件模式不对未匹配请求做处理
 				console.log('[ -- Normal Request -- ]:','http://'+host+url);
 				url = 'http://'+config.ip+url;
 				var options = {
