@@ -57,7 +57,12 @@ let nomo = (port, option) => {
 	});
 }
 
+let nomoMid = (req, res) => {
+	console.log("nomo middleware")
+}
+
 module.exports = {
 	start: nomo,
-	nomo: nomo
+	nomo: nomo,
+	mid: nomoMid
 }
