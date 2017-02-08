@@ -58,6 +58,7 @@ let nomo = (port, option) => {
 }
 
 let nomoMid = port => {
+
 	port = port || 1314;
 	app.listen(port);
 	Open("http://127.0.0.1:"+port+"/nomo/");
