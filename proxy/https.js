@@ -47,7 +47,7 @@ let Proxys = (port) => {
 				url = 'https://'+config.ip+url;
 				var options = {
 					url: url,
-					headers: {"Host":host},
+					headers: {"Host":host,"Cookie":req.headers.cookie},
 					rejectUnauthorized: false
 				}; 
 				
@@ -60,7 +60,7 @@ let Proxys = (port) => {
 						if(isBinary(response.headers["content-type"])){
 							var options = {
 								url: response.request.href,
-								headers: {"Host":host},
+								headers: response.request.headers,
 								encoding: 'binary',
 								rejectUnauthorized: false
 							};
