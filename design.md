@@ -10,4 +10,4 @@ The next thing to do:
 
 对于jsonp形式的mock也得支持
 
-The current intermediate is used 80 and 443 port , because there are already many tools occupied these two ports, must allow users free configuration it in the future.
+The current intermediate is used 80 and 443 port , because there are already many tools occupied these two ports, must allow users free configure it in the future.
